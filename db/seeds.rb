@@ -8,6 +8,7 @@
 
 contacted = [true, false]
 event_name = ['fb_form', 'footer_form', 'tutorials', 'tour', 'ebook', 'curriculum']
+
 100.times do
   Lead.create(
     first_name: Faker::Name.first_name,
