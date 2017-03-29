@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329180144) do
+ActiveRecord::Schema.define(version: 20170329181433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "lead_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lead_id"], name: "index_events_on_lead_id", using: :btree
+  end
 
   create_table "leads", force: :cascade do |t|
     t.string   "first_name"
@@ -30,4 +38,5 @@ ActiveRecord::Schema.define(version: 20170329180144) do
     t.datetime "updated_at",                       null: false
   end
 
+  add_foreign_key "events", "leads"
 end
