@@ -8,7 +8,8 @@
 
 contacted = [true, false]
 event_name = ['fb_form', 'footer_form', 'tutorials', 'tour', 'ebook', 'curriculum']
-100.times do
+
+50.times do
   Lead.create(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
@@ -21,8 +22,11 @@ event_name = ['fb_form', 'footer_form', 'tutorials', 'tour', 'ebook', 'curriculu
     contacted: contacted.sample,
     appointment_date: Faker::Date.between(2.days.ago, 1.month.from_now)
   )
+end
+
+100.times do
   Event.create(
     name: event_name.sample,
-    lead_id: Lead.last.id
+    lead_id: rand(1..50)
   )
 end
