@@ -4,7 +4,7 @@
 <p>Mousetraps:</p>
 <ul>
   <% @lead.events.each do |event| %>
-    <li><%= event.name %></li>
+    <li><%= event.name %>: <%= event.created_at.strftime("%A %b %e, %l:%M %p") %></li>
   <% end %>
 </ul>
 
