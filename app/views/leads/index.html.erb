@@ -11,12 +11,18 @@
   <th>Contacted</th>
   <th>Appointment Date</th>
 </tr>
+
+<%= form_tag '/leads', method: :get do %>
+  <%= text_field_tag :search %>
+  <%= submit_tag "Search" %>
+<% end %>
+
 <% @leads.each do |lead| %>
   <tr>
-    <td><%= lead.created_at %></td>
+    <td><%= lead.created_at.strftime("%A %b %e, %l:%M %p") %></td>
     <td><%= lead.first_name %></td>
     <td><%= lead.last_name %></td>
-    <td><%= lead.email %></td>
+    <td><%= link_to lead.email, "/?id=#{lead.id}" %></td>
     <td><%= lead.phone %></td>
     <td><%= lead.city %></td>
     <td><%= lead.state %></td>

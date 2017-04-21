@@ -1,6 +1,7 @@
+<%= link_to "See All Leads", "/leads" %>
 <h1>Next Lead</h1>
 
-<p>Created At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
+<p>First Became A Lead At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
 <p>Mousetraps:</p>
 <ul>
   <% @lead.events.each do |event| %>
