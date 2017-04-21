@@ -1,3 +1,8 @@
+<%= form_tag('/leads', method: :get) do %>
+  <%= text_field_tag :search %>
+  <%= submit_tag "Search" %>
+<% end %>
+
 <table>
 <tr>
   <th>Created</th>
@@ -11,11 +16,6 @@
   <th>Contacted</th>
   <th>Appointment Date</th>
 </tr>
-
-<%= form_tag '/leads', method: :get do %>
-  <%= text_field_tag :search %>
-  <%= submit_tag "Search" %>
-<% end %>
 
 <% @leads.each do |lead| %>
   <tr>
