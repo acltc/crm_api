@@ -15,6 +15,11 @@ class Api::V1::LeadsController < ApplicationController
       lead.first_name = params[:first_name]
       lead.last_name = params[:last_name]
       lead.phone = params[:phone]
+      begin
+        lead.standard_phone = Phoner::Phone.parse(params[:phone], country_code: '1').to_s
+      rescue 
+        # this will throw an exception if the given phone number is very off
+      end
       lead.ip = params[:ip]
       lead.city = params[:city]
       lead.state = params[:state]

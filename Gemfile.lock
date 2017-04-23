@@ -96,6 +96,7 @@ GEM
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     pg (0.20.0)
+    phone (1.2.3)
     puma (3.8.2)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -182,6 +183,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   pg (~> 0.18)
+  phone
   puma (~> 3.0)
   rails (~> 5.0.1)
   sass-rails (~> 5.0)

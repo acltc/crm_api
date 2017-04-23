@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170423200716) do
+ActiveRecord::Schema.define(version: 20170423230626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170423200716) do
     t.boolean  "bad_number",       default: false
     t.string   "advisor"
     t.string   "location"
+    t.string   "standard_phone"
   end
 
   add_foreign_key "events", "leads"

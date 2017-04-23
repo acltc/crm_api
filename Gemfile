@@ -42,6 +42,7 @@ gem 'figaro'
 #Drip Ruby Client
 gem 'drip-ruby', require: 'drip'
 gem 'twilio-ruby', '4.13.0'
+gem 'phone'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
