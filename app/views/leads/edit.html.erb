@@ -1,0 +1,180 @@
+<%= link_to "See All Leads", "/leads" %>
+<h1>Next Lead</h1>
+
+  <div id="controls">
+    <div id="info" style="display:none">
+      <p class="instructions">Twilio Client</p>
+      <div id="client-name"></div>
+    </div>
+    <div id="call-controls">
+      <input id="phone-number" type="text" value="<%= @lead.phone %>" />
+      <button id="button-call">Call</button>
+      <button id="button-hangup">Hangup</button>
+    </div>
+    <div id="log"></div>
+  </div>
+
+<script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+  // log('Requesting Capability Token...');
+  $.getJSON('/token')
+    .done(function (data) {
+      // log('Got a token.');
+      // console.log('Token: ' + data.token);
+
+      // Setup Twilio.Device
+      Twilio.Device.setup(data.token);
+
+      Twilio.Device.ready(function (device) {
+        // log('Twilio.Device Ready!');
+        document.getElementById('call-controls').style.display = 'block';
+      });
+
+      Twilio.Device.error(function (error) {
+        // log('Twilio.Device Error: ' + error.message);
+      });
+
+      Twilio.Device.connect(function (conn) {
+        // log('Successfully established call!');
+        document.getElementById('button-call').style.display = 'none';
+        document.getElementById('button-hangup').style.display = 'inline';
+      });
+
+      Twilio.Device.disconnect(function (conn) {
+        log('Call ended.');
+        document.getElementById('button-call').style.display = 'inline';
+        document.getElementById('button-hangup').style.display = 'none';
+      });
+
+      Twilio.Device.incoming(function (conn) {
+        log('Incoming connection from ' + conn.parameters.From);
+        var archEnemyPhoneNumber = '+12099517118';
+
+        if (conn.parameters.From === archEnemyPhoneNumber) {
+          conn.reject();
+          log('It\'s your nemesis. Rejected call.');
+        } else {
+          // accept the incoming connection and start two-way audio
+          conn.accept();
+        }
+      });
+
+      setClientNameUI(data.identity);
+    })
+    .fail(function () {
+      log('Could not get a token from server!');
+    });
+
+  // Bind button to make call
+  document.getElementById('button-call').onclick = function () {
+    // get the phone number to connect the call to
+    var params = {
+      To: document.getElementById('phone-number').value
+    };
+
+    console.log('Calling ' + params.To + '...');
+    Twilio.Device.connect(params);
+  };
+
+  // Bind button to hangup call
+  document.getElementById('button-hangup').onclick = function () {
+    // log('Hanging up...');
+    Twilio.Device.disconnectAll();
+  };
+
+});
+
+// Activity log
+function log(message) {
+  var logDiv = document.getElementById('log');
+  logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
+  logDiv.scrollTop = logDiv.scrollHeight;
+}
+
+// Set the client name in the UI
+function setClientNameUI(clientName) {
+  var div = document.getElementById('client-name');
+  div.innerHTML = 'Your client name: <strong>' + clientName +
+    '</strong>';
+}
+
+
+</script>
+
+<p>First Became A Lead At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
+<p>Mousetraps:</p>
+<ul>
+  <% @lead.events.each do |event| %>
+    <li><%= event.name %>: <%= event.created_at.strftime("%A %b %e, %l:%M %p") %></li>
+  <% end %>
+</ul>
+
+<%= form_for @lead do |f| %>
+  <div>
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+  </div>
+  <div>
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name %>
+  </div>
+  <div>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+  <div>
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </div>
+  <div>
+    <%= f.label :location %>
+    <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}) %>
+  </div>
+  <div>
+    <%= f.label :advisor %>
+    <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}) %>
+  </div>
+  <br>
+  <div>
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div>
+  <div>
+    <%= f.label :state %>
+    <%= f.text_field :state %>
+  </div>
+  <div>
+    <%= f.label :zip %>
+    <%= f.text_field :zip %>
+  </div>
+  <div>
+    <%= f.label :contacted, "Dialed?" %>
+    <%= f.check_box :contacted %>
+  </div>
+  <div>
+    <%= f.label :connected, "Connected?" %>
+    <%= f.check_box :connected %>
+  </div>
+  <div>
+    <%= f.label :bad_number, "Bad Number?" %>
+    <%= f.check_box :bad_number %>
+  </div>
+  <div>
+    <%= f.label :appointment_date %>
+    <%= f.datetime_field :appointment_date %>
+  </div>
+  <div>
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
+  </div>
+  <% if @call_mode %>
+    <div>
+      <%= f.hidden_field :call_mode, value: true %>
+    </div>
+  <% end %>
+  <div>
+    <%= f.submit :next, {value: @call_mode ? "Process and Move On to Next Lead" : "Update"} %>
+  </div>
+<% end %>

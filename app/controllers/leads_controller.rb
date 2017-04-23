@@ -8,11 +8,35 @@ class LeadsController < ApplicationController
     @lead = Lead.find_by(id: params[:id])
   end
 
+  def edit
+    @lead = Lead.find_by(id: params[:id])
+  end
+
   def next
     @lead = Lead.next
-    # This page can also be repurposed as the edit page if a specific lead id is provided:
-    @lead = Lead.find_by(id: params[:id]) if params[:id]
-    redirect_to '/no_leads' unless @lead
+    @call_mode = true
+    if @lead
+      render :edit
+    else
+      redirect_to '/no_leads'
+    end
+  end
+
+  def update
+    @lead = Lead.find_by(id: params[:id])
+    if @lead.update(lead_params)
+      # If we're in call mode, process and move on to the next lead
+      if params[:lead][:call_mode]
+        @lead.process 
+        redirect_to "/"
+      else # if we're simply updating a lead
+        flash[:success] = "Lead saved!"
+        redirect_to '/leads'
+      end
+    else
+      flash[:error] = "ERROR: We could not update this lead."
+      render :next
+    end
   end
 
   def token
@@ -48,17 +72,6 @@ class LeadsController < ApplicationController
   end
 
   def no_leads
-  end
-
-  def update
-    @lead = Lead.find_by(id: params[:id])
-    if @lead.update(lead_params)
-      @lead.process
-      redirect_to "/"
-    else
-      flash[:error] = "ERROR: We could not process this lead."
-      render :next
-    end
   end
 
   private

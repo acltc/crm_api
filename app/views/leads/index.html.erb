@@ -24,7 +24,7 @@
     <td><%= lead.created_at.strftime("%A %b %e, %l:%M %p") %></td>
     <td><%= lead.first_name %></td>
     <td><%= lead.last_name %></td>
-    <td><%= link_to lead.email, "/?id=#{lead.id}" %></td>
+    <td><%= link_to lead.email, edit_lead_path(lead) %></td>
     <td><%= lead.phone %></td>
     <td><%= lead.city %></td>
     <td><%= lead.state %></td>
