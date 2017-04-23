@@ -15,6 +15,38 @@ class LeadsController < ApplicationController
     redirect_to '/no_leads' unless @lead
   end
 
+  def token
+    identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
+
+    capability = Twilio::Util::Capability.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+    capability.allow_client_outgoing ENV['TWILIO_TWIML_APP_SID']
+    capability.allow_client_incoming identity
+    token = capability.generate
+    
+    # Generate the token and send to client
+    render json: {identity: identity, token: token}
+  end
+
+  def voice
+    twiml = Twilio::TwiML::Response.new do |r|
+      if params['To'] and params['To'] != ''
+        r.Dial callerId: ENV['TWILIO_CALLER_ID'] do |d|
+          # wrap the phone number or client name in the appropriate TwiML verb
+          # by checking if the number given has only digits and format symbols
+          if params['To'] =~ /^[\d\+\-\(\) ]+$/
+            d.Number params['To']
+          else
+            d.Client params['To']
+          end
+        end
+      else
+        r.Say "Thanks for calling!"
+      end
+    end
+    
+    render xml: twiml.text
+  end
+
   def no_leads
   end
 

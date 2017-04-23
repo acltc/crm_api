@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :leads
   get '/' => 'leads#next'
   get '/no_leads' => 'leads#no_leads'
+  get '/token' => 'leads#token'
+  post '/voice' => 'leads#voice'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
