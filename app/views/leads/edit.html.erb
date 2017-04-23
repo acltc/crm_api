@@ -1,5 +1,9 @@
 <%= link_to "See All Leads", "/leads" %>
-<h1>Next Lead</h1>
+<% if @call_mode %>
+  <h1>Next Lead</h1>
+<% else %>
+  <h1>Edit Lead</h1>
+<% end %>
 
   <div id="controls">
     <div id="info" style="display:none">
