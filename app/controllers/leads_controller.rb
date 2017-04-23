@@ -20,8 +20,13 @@ class LeadsController < ApplicationController
 
   def update
     @lead = Lead.find_by(id: params[:id])
-    @lead.update(lead_params)
-    redirect_to "/"
+    if @lead.update(lead_params)
+      @lead.process
+      redirect_to "/"
+    else
+      flash[:error] = "ERROR: We could not process this lead."
+      render :next
+    end
   end
 
   private
