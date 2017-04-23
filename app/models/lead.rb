@@ -1,6 +1,8 @@
 class Lead < ApplicationRecord
   has_many :events
 
+  before_save :standardize_phone
+
   def self.next;
     # In production, we are currently only dealing with leads from a certain date
     Lead.where(contacted: false).where(bad_number: false).where('created_at > ?', '2017-04-21 19:06:25').order(:created_at).last
@@ -24,6 +26,14 @@ class Lead < ApplicationRecord
   end
 
   private
+
+  def standardize_phone
+    begin
+      self.standard_phone = Phoner::Phone.parse(self.phone, country_code: '1').to_s
+    rescue 
+      # this will throw an exception if the given phone number is very off
+    end
+  end
 
   def should_be_left_a_message
     # We tried dialing a good number but didn't reach them:
