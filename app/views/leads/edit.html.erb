@@ -117,6 +117,9 @@ function setClientNameUI(clientName) {
 
 <%= form_for @lead do |f| %>
   <div>
+    <h3>Personal Info</h3>
+  </div>
+  <div>
     <%= f.label :first_name %>
     <%= f.text_field :first_name %>
   </div>
@@ -132,16 +135,7 @@ function setClientNameUI(clientName) {
     <%= f.label :phone %>
     <%= f.text_field :phone %>
   </div>
-  <div>
-    <%= f.label :location %>
-    <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}) %>
-  </div>
-  <div>
-    <%= f.label :advisor %>
-    <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}) %>
-  </div>
-  <br>
-  <div>
+    <div>
     <%= f.label :city %>
     <%= f.text_field :city %>
   </div>
@@ -152,6 +146,26 @@ function setClientNameUI(clientName) {
   <div>
     <%= f.label :zip %>
     <%= f.text_field :zip %>
+  </div>
+  <br>
+  <div>
+    <h3>Setting Up Their Appointment</h3>
+  </div>
+  <div>
+    <%= f.label :location, "Which location do they want to join?" %>
+    <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}) %>
+  </div>
+  <div>
+    <%= f.label :advisor %>
+    <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}) %>
+  </div>
+  <div>
+    <%= f.label :appointment_date %>
+    <%= f.datetime_field :appointment_date %>
+  </div>
+  <br>
+  <div>
+    <h3>Call Converter Records</h3>
   </div>
   <div>
     <%= f.label :contacted, "Dialed?" %>
@@ -164,10 +178,6 @@ function setClientNameUI(clientName) {
   <div>
     <%= f.label :bad_number, "Bad Number?" %>
     <%= f.check_box :bad_number %>
-  </div>
-  <div>
-    <%= f.label :appointment_date %>
-    <%= f.datetime_field :appointment_date %>
   </div>
   <div>
     <%= f.label :notes %>
