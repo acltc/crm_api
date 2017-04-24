@@ -6,10 +6,10 @@ class Lead < ApplicationRecord
   def self.next
     if Rails.env.development?
       # In development, we deal with leads from all time:
-      return Lead.where(contacted: false).where(bad_number: false).order(:created_at).last
+      return Lead.where(contacted: false).where(bad_number: false).where("phone <> ''").order(:created_at).last
     else
       # In production, we are currently only dealing with leads from a certain date
-      return Lead.where(contacted: false).where(bad_number: false).where('created_at > ?', '2017-04-21 19:06:25').order(:created_at).last
+      return Lead.where(contacted: false).where(bad_number: false).where("phone <> ''").where('created_at > ?', '2017-04-21 19:06:25').order(:created_at).last
     end    
   end
 
