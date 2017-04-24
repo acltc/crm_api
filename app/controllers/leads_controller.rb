@@ -1,6 +1,6 @@
 class LeadsController < ApplicationController
   def index
-    @leads = Lead.order(created_at: :desc)
+    @leads = Lead.where("phone <> ''").order(created_at: :desc)
     @leads = Lead.where("first_name ILIKE ? OR last_name ILIKE ? OR email ILIKE ? OR phone ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%").order(created_at: :desc) if params[:search]
   end
 
