@@ -1,22 +1,173 @@
-<%= link_to "See All Leads", "/leads" %>
-<% if @call_mode %>
-  <h1>Next Lead</h1>
-<% else %>
-  <h1>Edit Lead</h1>
-<% end %>
+<section class="forms">
+  <div class="container-fluid">
+    <header> 
+      <% if @call_mode %>
+        <h1 class="h3 display">Next Lead</h1>
+      <% else %>
+        <h1 class="h3 display">Edit Lead</h1>
+      <% end %>
+    </header>
 
-  <div id="controls">
-    <div id="info" style="display:none">
-      <p class="instructions">Twilio Client</p>
-      <div id="client-name"></div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">Dial</h2>
+          </div>
+
+          <div id="controls">
+            <div id="info" style="display:none">
+              <p class="instructions">Twilio Client</p>
+              <div id="client-name"></div>
+            </div>
+            <div id="call-controls">
+              <input id="phone-number" type="text" value="<%= @lead.phone %>" class="form-control"/>
+              <button id="button-call" class="btn btn-primary">Call</button>
+              <button id="button-hangup" class="btn btn-danger">Hangup</button>
+            </div>
+            <div id="log"></div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <div id="call-controls">
-      <input id="phone-number" type="text" value="<%= @lead.phone %>" />
-      <button id="button-call">Call</button>
-      <button id="button-hangup">Hangup</button>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">History</h2>
+          </div>
+          <div class="card-block">
+            <p>First Became A Lead At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
+
+            <div class="row">
+              <table class="table">
+                <% @lead.events.each do |event| %>
+                  <tr><td><%= event.name %></td><td><%= event.created_at.strftime("%A %b %e, %l:%M %p") %></td></tr>
+                <% end %>
+              </table>
+            </div>
+
+            <%= form_for @lead, {class: "form-horizontal"} do |f| %>
+              <div class="form-group row">
+                <h3>Personal Info</h3>
+              </div>
+              <div class="form-group row">
+                <%= f.label :first_name, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :first_name, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :last_name, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :last_name, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :email, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :email, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :phone, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :phone, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :city, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :city, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :state, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :state, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :zip, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_field :zip, {class: "form-control form-control-warning"} %>
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <h3>Setting Up Their Appointment</h3>
+              </div>
+              <div class="form-group row">
+                <%= f.label :location, "Which location do they want to join?", {class: "col-sm-2 form-control-label" } %>
+                <div class="col-sm-10 select">
+                  <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}, {class: 'form-control'}) %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :advisor, "Advisor", {class: "col-sm-2 form-control-label"} %>
+                <div class="col-sm-10 select">
+                  <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}, {class: 'form-control'}) %>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :appointment_date, "Appointment Date", {class: "col-sm-2 form-control-label"} %>
+                <div class="col-sm-10 select">
+                  <%= f.datetime_field :appointment_date, {class: 'form-control'} %>
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <h3>Call Converter Records</h3>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :contacted, "Dialed?" %>
+                    <%= f.check_box :contacted %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :connected, "Connected?" %>
+                    <%= f.check_box :connected %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :bad_number, "Bad Number?" %>
+                    <%= f.check_box :bad_number %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <%= f.label :notes, {class: 'col-sm-2'} %>
+                <div class="col-sm-10">
+                  <%= f.text_area :notes, {class: 'form-control'} %>
+                </div>
+              </div>
+              <% if @call_mode %>
+                <div>
+                  <%= f.hidden_field :call_mode, value: true %>
+                </div>
+              <% end %>
+              <div>
+                <%= f.submit :next, {value: @call_mode ? "Process and Move On to Next Lead" : "Update"} %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="log"></div>
   </div>
+</section>
+
 
 <script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -107,88 +258,5 @@ function setClientNameUI(clientName) {
 
 </script>
 
-<p>First Became A Lead At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
-<p>Mousetraps:</p>
-<ul>
-  <% @lead.events.each do |event| %>
-    <li><%= event.name %>: <%= event.created_at.strftime("%A %b %e, %l:%M %p") %></li>
-  <% end %>
-</ul>
 
-<%= form_for @lead do |f| %>
-  <div>
-    <h3>Personal Info</h3>
-  </div>
-  <div>
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name %>
-  </div>
-  <div>
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name %>
-  </div>
-  <div>
-    <%= f.label :email %>
-    <%= f.text_field :email %>
-  </div>
-  <div>
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
-  </div>
-    <div>
-    <%= f.label :city %>
-    <%= f.text_field :city %>
-  </div>
-  <div>
-    <%= f.label :state %>
-    <%= f.text_field :state %>
-  </div>
-  <div>
-    <%= f.label :zip %>
-    <%= f.text_field :zip %>
-  </div>
-  <br>
-  <div>
-    <h3>Setting Up Their Appointment</h3>
-  </div>
-  <div>
-    <%= f.label :location, "Which location do they want to join?" %>
-    <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}) %>
-  </div>
-  <div>
-    <%= f.label :advisor %>
-    <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}) %>
-  </div>
-  <div>
-    <%= f.label :appointment_date %>
-    <%= f.datetime_field :appointment_date %>
-  </div>
-  <br>
-  <div>
-    <h3>Call Converter Records</h3>
-  </div>
-  <div>
-    <%= f.label :contacted, "Dialed?" %>
-    <%= f.check_box :contacted %>
-  </div>
-  <div>
-    <%= f.label :connected, "Connected?" %>
-    <%= f.check_box :connected %>
-  </div>
-  <div>
-    <%= f.label :bad_number, "Bad Number?" %>
-    <%= f.check_box :bad_number %>
-  </div>
-  <div>
-    <%= f.label :notes %>
-    <%= f.text_area :notes %>
-  </div>
-  <% if @call_mode %>
-    <div>
-      <%= f.hidden_field :call_mode, value: true %>
-    </div>
-  <% end %>
-  <div>
-    <%= f.submit :next, {value: @call_mode ? "Process and Move On to Next Lead" : "Update"} %>
-  </div>
-<% end %>
+
