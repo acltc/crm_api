@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'settings/dashboard'
+
   resources :leads
   get '/' => 'leads#next'
   get '/no_leads' => 'leads#no_leads'

@@ -3,7 +3,7 @@ class Lead < ApplicationRecord
 
   before_save :standardize_phone
 
-  def self.next;
+  def self.next
     # In production, we are currently only dealing with leads from a certain date
     Lead.where(contacted: false).where(bad_number: false).where('created_at > ?', '2017-04-21 19:06:25').order(:created_at).last
     # In development, we deal with leads from all time:
