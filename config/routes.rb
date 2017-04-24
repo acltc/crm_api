@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/no_leads' => 'leads#no_leads'
   get '/token' => 'leads#token'
   post '/voice' => 'leads#voice'
+  post '/text' => 'leads#text'
 
 
   post '/incoming_voice' => 'webhooks#incoming_voice'

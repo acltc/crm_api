@@ -69,6 +69,22 @@ class LeadsController < ApplicationController
     render xml: twiml.text
   end
 
+  def text
+    @client = Twilio::REST::Client.new
+    @client.messages.create(
+      from: '+17734666919',
+      to: params[:phone],
+      body: params[:body]
+    )
+
+    @client.messages.create(
+      from: '+17734666919',
+      to: '+17737241128',
+      body: "You sent: #{params[:body]}"
+    )
+    render nothing: true
+  end
+
   def no_leads
   end
 
