@@ -35,6 +35,7 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="card">
+
           <div class="card-header d-flex align-items-center">
             <h2 class="h5 display">Send Text Message</h2>
           </div>
@@ -80,123 +81,137 @@
                 <% end %>
               </table>
             </div>
-
-            <%= form_for @lead, {class: "form-horizontal"} do |f| %>
-              <div class="form-group row">
-                <h3>Personal Info</h3>
-              </div>
-              <div class="form-group row">
-                <%= f.label :first_name, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :first_name, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :last_name, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :last_name, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :email, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :email, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :phone, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :phone, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :city, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :city, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :state, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :state, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :zip, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_field :zip, {class: "form-control form-control-warning"} %>
-                </div>
-              </div>
-              <br>
-              <div class="form-group row">
-                <h3>Setting Up Their Appointment</h3>
-              </div>
-              <div class="form-group row">
-                <%= f.label :location, "Which location do they want to join?", {class: "col-sm-2 form-control-label" } %>
-                <div class="col-sm-10 select">
-                  <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}, {class: 'form-control'}) %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :advisor, "Advisor", {class: "col-sm-2 form-control-label"} %>
-                <div class="col-sm-10 select">
-                  <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}, {class: 'form-control'}) %>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :appointment_date, "Appointment Date", {class: "col-sm-2 form-control-label"} %>
-                <div class="col-sm-10 select">
-                  <%= f.datetime_field :appointment_date, {class: 'form-control'} %>
-                </div>
-              </div>
-              <br>
-              <div class="form-group row">
-                <h3>Call Converter Records</h3>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-10">
-                  <div class="i-checks">
-                    <%= f.label :contacted, "Dialed?" %>
-                    <%= f.check_box :contacted %>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-10">
-                  <div class="i-checks">
-                    <%= f.label :connected, "Connected?" %>
-                    <%= f.check_box :connected %>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-10">
-                  <div class="i-checks">
-                    <%= f.label :bad_number, "Bad Number?" %>
-                    <%= f.check_box :bad_number %>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <%= f.label :notes, {class: 'col-sm-2'} %>
-                <div class="col-sm-10">
-                  <%= f.text_area :notes, {class: 'form-control'} %>
-                </div>
-              </div>
-              <% if @call_mode %>
-                <div>
-                  <%= f.hidden_field :call_mode, value: true %>
-                </div>
-              <% end %>
-              <div>
-                <%= f.submit :next, {value: @call_mode ? "Process and Move On to Next Lead" : "Update"} %>
-              </div>
-            <% end %>
           </div>
         </div>
       </div>
     </div>
+    
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+
+          <%= form_for @lead, {class: "form-horizontal"} do |f| %>
+            <div class="form-group row">
+              <div class="card-header d-flex align-items-center">
+                <h2 class="h5 display">Personal Info</h2>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :first_name, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :first_name, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :last_name, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :last_name, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :email, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :email, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :phone, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :phone, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :city, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :city, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :state, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :state, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :zip, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_field :zip, {class: "form-control form-control-warning"} %>
+              </div>
+            </div>
+            <br>
+            <div class="form-group row">
+              <div class="card-header d-flex align-items-center">
+                <h2 class="h5 display">Setting Up Their Appointment</h2>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :location, "Which location do they want to join?", {class: "col-sm-2 form-control-label" } %>
+              <div class="col-sm-10 select">
+                <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}, {class: 'form-control'}) %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :advisor, "Advisor", {class: "col-sm-2 form-control-label"} %>
+              <div class="col-sm-10 select">
+                <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}, {class: 'form-control'}) %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :appointment_date, "Appointment Date", {class: "col-sm-2 form-control-label"} %>
+              <div class="col-sm-10 select">
+                <%= f.datetime_field :appointment_date, {class: 'form-control'} %>
+              </div>
+            </div>
+            <br>
+            <div class="form-group row">
+              <div class="card-header d-flex align-items-center">
+                <h2 class="h5 display">Post-Call Records</h2>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <div class="i-checks">
+                  <%= f.label :contacted, "Dialed?" %>
+                  <%= f.check_box :contacted %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <div class="i-checks">
+                  <%= f.label :connected, "Connected?" %>
+                  <%= f.check_box :connected %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <div class="i-checks">
+                  <%= f.label :bad_number, "Bad Number?" %>
+                  <%= f.check_box :bad_number %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <%= f.label :notes, {class: 'col-sm-2'} %>
+              <div class="col-sm-10">
+                <%= f.text_area :notes, {class: 'form-control'} %>
+              </div>
+            </div>
+            <% if @call_mode %>
+              <div>
+                <%= f.hidden_field :call_mode, value: true %>
+              </div>
+            <% end %>
+            <div>
+              <%= f.submit :next, {value: @call_mode ? "Process and Move On to Next Lead" : "Update"} %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
+  
 </section>
 
 
