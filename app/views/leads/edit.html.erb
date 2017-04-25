@@ -193,7 +193,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <%= f.label :notes, {class: 'col-sm-2'} %>
+              <%= f.label :notes, "Call Converter Notes", {class: 'col-sm-2'} %>
               <div class="col-sm-10">
                 <%= f.text_area :notes, {class: 'form-control'} %>
               </div>
@@ -201,6 +201,116 @@
             <% if @call_mode %>
               <div>
                 <%= f.hidden_field :call_mode, value: true %>
+              </div>
+            <% else %>
+              <div class="form-group row">
+                <div class="card-header d-flex align-items-center">
+                  <h2 class="h5 display">Admissions Advisor Records</h2>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :first_appointment_set, "First Appointment Set" %>
+                    <%= f.date_field :first_appointment_set %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :first_appointment_actual, "First Appointment Actually Took Place On" %>
+                    <%= f.date_field :first_appointment_actual %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :first_appointment_format, "First Appointment Format" %>
+                    <%= f.select(:first_appointment_format, options_for_select([['Face To Face'], ['Video'], ['Phone']], @lead.first_appointment_format), {:include_blank => 'Select Format'}, {class: 'form-control'}) %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :second_appointment_set, "Second Appointment Set" %>
+                    <%= f.date_field :second_appointment_set %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :second_appointment_actual, "Second Appointment Actually Took Place On" %>
+                    <%= f.date_field :second_appointment_actual %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :second_appointment_format, "Second Appointment Format" %>
+                    <%= f.select(:second_appointment_format, options_for_select([['Face To Face'], ['Video'], ['Phone']], @lead.first_appointment_format), {:include_blank => 'Select Format'}, {class: 'form-control'}) %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :enrolled_date, "Enrolled Date" %>
+                    <%= f.date_field :enrolled_date %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :deposit_date, "Deposit Date" %>
+                    <%= f.date_field :deposit_date %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :sales, "Sales" %>
+                    <%= f.text_field :sales %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :collected, "Collected" %>
+                    <%= f.text_field :collected %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :status, "Status" %>
+                    <%= f.select(:status, options_for_select([['In Progress'], ['Enrolled'], ['Stalled']], @lead.status), {:include_blank => 'Select Format'}, {class: 'form-control'}) %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :next_step, "Next Step" %>
+                    <%= f.text_field :next_step %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :rep_notes, "Admission Advisor Notes" %>
+                    <%= f.text_area :rep_notes %>
+                  </div>
+                </div>
               </div>
             <% end %>
             <div>
@@ -210,8 +320,8 @@
         </div>
       </div>
     </div>
+
   </div>
-  
 </section>
 
 
