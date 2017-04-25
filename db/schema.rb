@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424003346) do
+ActiveRecord::Schema.define(version: 20170425030722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,16 +32,17 @@ ActiveRecord::Schema.define(version: 20170424003346) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.boolean  "contacted",        default: false
+    t.boolean  "contacted",            default: false
     t.date     "appointment_date"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.text     "notes"
-    t.boolean  "connected",        default: false
-    t.boolean  "bad_number",       default: false
+    t.boolean  "connected",            default: false
+    t.boolean  "bad_number",           default: false
     t.string   "advisor"
     t.string   "location"
     t.string   "standard_phone"
+    t.boolean  "exclude_from_calling", default: false
   end
 
   create_table "settings", force: :cascade do |t|
