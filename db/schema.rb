@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425190120) do
+ActiveRecord::Schema.define(version: 20170425192611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170425190120) do
     t.string   "standard_phone"
     t.boolean  "exclude_from_calling", default: false
     t.datetime "process_time"
+    t.boolean  "hot",                  default: true
   end
 
   create_table "settings", force: :cascade do |t|

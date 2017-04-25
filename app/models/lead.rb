@@ -14,7 +14,7 @@ class Lead < ApplicationRecord
   end
 
   def process
-    self.update(process_time: Time.now)
+    self.update(process_time: Time.now, hot: false)
     if should_be_left_a_message
       text
     end
