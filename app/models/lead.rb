@@ -4,7 +4,7 @@ class Lead < ApplicationRecord
   before_save :standardize_phone
 
   def self.next
-    Lead.where(hot: true).where("phone <> ''").order(:created_at).last  
+    Lead.where(hot: true).where("phone <> ''").order(:updated_at).last  
   end
 
   def process
