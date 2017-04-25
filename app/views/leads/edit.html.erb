@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <header> 
       <% if @call_mode %>
-        <h1 class="h3 display">Next Lead</h1>
+        <h1 class="h3 display">Next Lead: <%= @lead.full_name %></h1>
       <% else %>
         <h1 class="h3 display">Edit Lead</h1>
       <% end %>
