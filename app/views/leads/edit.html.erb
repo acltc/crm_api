@@ -73,6 +73,7 @@
           </div>
           <div class="card-block">
             <p>First Became A Lead At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
+            <p>Number Of Times We Called Them: <%= @lead.number_of_dials %></p>
 
             <div class="row">
               <table class="table">
