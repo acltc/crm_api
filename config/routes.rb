@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
+  root to: 'leads#index'
+
+  devise_for :admins
+
   get 'settings/dashboard'
 
   resources :leads
-  get '/' => 'leads#next'
+  get '/next' => 'leads#next'
   get '/no_leads' => 'leads#no_leads'
   get '/token' => 'leads#token'
   post '/voice' => 'leads#voice'

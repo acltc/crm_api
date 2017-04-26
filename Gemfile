@@ -41,6 +41,7 @@ gem 'faker'
 gem 'figaro'
 #Drip Ruby Client
 gem 'drip-ruby', require: 'drip'
+gem 'devise'
 gem 'twilio-ruby', '4.13.0'
 gem 'phone', '1.2.3'
 
