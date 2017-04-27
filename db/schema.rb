@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20170426185525) do
     t.string   "status"
     t.string   "next_step"
     t.text     "rep_notes"
+    t.integer  "number_of_dials",           default: 0
   end
 
   create_table "settings", force: :cascade do |t|

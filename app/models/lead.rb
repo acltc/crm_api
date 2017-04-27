@@ -4,13 +4,17 @@ class Lead < ApplicationRecord
   before_save :standardize_phone
 
   def self.next
-    Lead.where(hot: true).where("phone <> ''").order(:updated_at).last  
+    # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never reached and triggered a new event since we tried to dial them:
+    hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where("phone <> ''").order(:updated_at).last
+    return hot_lead if hot_lead
+    # If we can't find a hot lead, we return people who have only been dialed once but we've never reached:
+    return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
   end
 
   def process
-    self.update(process_time: Time.now, hot: false)
+    self.update(process_time: Time.now, hot: false, contacted: true, number_of_dials: self.number_of_dials + 1)
     if should_be_left_a_message
-      text
+      # text
     end
   end
 

@@ -73,6 +73,7 @@
           </div>
           <div class="card-block">
             <p>First Became A Lead At: <%= @lead.created_at.strftime("%A %b %e, %l:%M %p") %></p>
+            <p>Number Of Times We Called Them: <%= @lead.number_of_dials %></p>
 
             <div class="row">
               <table class="table">
@@ -168,14 +169,16 @@
                 <h2 class="h5 display">Post-Call Records</h2>
               </div>
             </div>
-            <div class="form-group row">
-              <div class="col-sm-10">
-                <div class="i-checks">
-                  <%= f.label :contacted, "Dialed?" %>
-                  <%= f.check_box :contacted %>
+            <% if !@call_mode %>
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <div class="i-checks">
+                    <%= f.label :contacted, "Dialed?" %>
+                    <%= f.check_box :contacted %>
+                  </div>
                 </div>
               </div>
-            </div>
+            <% end %>          
             <div class="form-group row">
               <div class="col-sm-10">
                 <div class="i-checks">
@@ -189,6 +192,14 @@
                 <div class="i-checks">
                   <%= f.label :bad_number, "Bad Number?" %>
                   <%= f.check_box :bad_number %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <div class="i-checks">
+                  <%= f.label :exclude_from_calling, "Never call again" %>
+                  <%= f.check_box :exclude_from_calling %>
                 </div>
               </div>
             </div>
