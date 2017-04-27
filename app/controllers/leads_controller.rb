@@ -1,5 +1,5 @@
 class LeadsController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin!, except: [:token, :voice, :text]
 
   def index
     @all_leads_active = "active"
