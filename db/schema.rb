@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426185525) do
+ActiveRecord::Schema.define(version: 20170427191700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20170426185525) do
     t.string   "next_step"
     t.text     "rep_notes"
     t.integer  "number_of_dials",           default: 0
+    t.boolean  "old_lead",                  default: false
   end
 
   create_table "settings", force: :cascade do |t|
