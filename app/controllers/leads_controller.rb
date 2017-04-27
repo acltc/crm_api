@@ -1,4 +1,6 @@
 class LeadsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @all_leads_active = "active"
     @leads = Lead.where("phone <> ''").order(created_at: :desc)
@@ -25,7 +27,7 @@ class LeadsController < ApplicationController
     if @lead.update(lead_params)
       # If we're in call mode, process and move on to the next lead
       if params[:lead][:call_mode]
-        @lead.process 
+        @lead.process
         redirect_to "/"
       else # if we're simply updating a lead
         flash[:success] = "Lead saved!"
@@ -44,7 +46,7 @@ class LeadsController < ApplicationController
     capability.allow_client_outgoing ENV['TWILIO_TWIML_APP_SID']
     capability.allow_client_incoming identity
     token = capability.generate
-    
+
     # Generate the token and send to client
     render json: {identity: identity, token: token}
   end
@@ -65,7 +67,7 @@ class LeadsController < ApplicationController
         r.Say "Thanks for calling!"
       end
     end
-    
+
     render xml: twiml.text
   end
 

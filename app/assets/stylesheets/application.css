@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.alert.alert-dismissible {
+  margin-top: 20px;
+}
+
+.sign-in-form {
+  margin-top: 40px;
+}
