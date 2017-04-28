@@ -12,7 +12,10 @@ class Lead < ApplicationRecord
   end
 
   def process
-    self.update(process_time: Time.now, hot: false, contacted: true, number_of_dials: self.number_of_dials + 1)
+    # A lead becomes "cold" once processed. "contacted" is our term for processed. We also record that we've made another dial to this lead:
+    self.update(hot: false, contacted: true, number_of_dials: self.number_of_dials + 1)
+    # Record the process time only the first time the lead is processed:
+    self.update(process_time: Time.now) unless self.process_time
     if should_be_left_a_message
       text
     end
