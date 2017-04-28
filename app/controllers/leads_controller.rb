@@ -25,13 +25,13 @@ class LeadsController < ApplicationController
   def update
     @lead = Lead.find_by(id: params[:id])
     if @lead.update(lead_params)
-      # If we're in call mode, process and move on to the next lead
-      if params[:lead][:call_mode]
+      # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
+      if params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
         @lead.process
-        redirect_to "/"
+        redirect_to "/next"
       else # if we're simply updating a lead
         flash[:success] = "Lead saved!"
-        redirect_to '/leads'
+        redirect_to '/'
       end
     else
       flash[:error] = "ERROR: We could not update this lead."
