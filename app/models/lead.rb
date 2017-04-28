@@ -3,6 +3,8 @@ class Lead < ApplicationRecord
 
   before_save :standardize_phone
 
+  attr_accessor :call_mode
+
   def self.next
     # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never reached and triggered a new event since we tried to dial them:
     hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where("phone <> ''").order(:updated_at).last

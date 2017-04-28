@@ -323,6 +323,12 @@
                   </div>
                 </div>
               </div>
+              <div class="form-group row">
+                <div class="card-header d-flex align-items-center">
+                  <%= f.label :call_mode, "Officially Process?" %>
+                  <%= f.check_box :call_mode %>
+                </div>
+              </div>
             <% end %>
             <div>
               <%= f.submit :next, {value: @call_mode ? "Process and Move On to Next Lead" : "Update"} %>
