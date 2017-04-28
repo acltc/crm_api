@@ -22,7 +22,8 @@ class Lead < ApplicationRecord
     # For those we set an appointment with:
     if self.appointment_date
       # Send a calendar invite to the lead:
-      CalendarInvitesMailer.appointment(self).deliver_now
+      # This feature is commented out since it's not complete right now:
+      # CalendarInvitesMailer.appointment(self).deliver_now
 
       # Mark lead as connected in case the call-converter forgot to:
       self.update(connected: true)
