@@ -10,6 +10,15 @@ namespace :crm_api do
         lead.first_name = row['first_name']
         lead.notes = row['notes']
         lead.phone = row['phone']
+        lead.old_lead = true
+        lead.hot = false
+        if row['advisor'] == 'n'
+          lead.advisor = 'Nick'
+        elsif row['advisor']  == 'Z'
+          lead.advisor = 'Zev'
+        elsif row['advisor'] == 'r'
+          lead.advisor = 'Ray'
+        end
       end
       @lead.events.create(name: row['name'], created_at: row['created_at'], updated_at: row['updated_at'])
     end
