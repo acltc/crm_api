@@ -24,7 +24,7 @@
                   <th>Last Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>City</th>
+                  <th>Campus</th>
                   <th>Hot?</th>
                   <th>Appointment Date</th>
                   <th>Processed Within</th>
@@ -38,7 +38,7 @@
                     <td><%= lead.last_name %></td>
                     <td><%= link_to lead.email, edit_lead_path(lead) %></td>
                     <td><%= lead.phone %></td>
-                    <td><%= lead.city %></td>
+                    <td><%= lead.location %></td>
                     <td><%= lead.hot %></td>
                     <td><%= lead.appointment_date %></td>
                     <td><%= lead.processed_within_minutes ? "#{lead.processed_within_minutes} minutes" : "not called" %></td>
