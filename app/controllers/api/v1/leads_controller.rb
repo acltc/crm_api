@@ -25,7 +25,7 @@ class Api::V1::LeadsController < ApplicationController
     @lead.update(hot: true) unless @lead.connected || @lead.bad_number
     @lead.events.create(name: params[:name], created_at: params[:created_at], updated_at: params[:updated_at])
     if params[:name] == "Finished Application"
-      @lead.update(exclude_from_calling: true, hot: false)
+      @lead.update(connected: true, hot: false)
     end
     create_drip_lead
     render "show.json.jbuilder"

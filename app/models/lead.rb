@@ -6,21 +6,36 @@ class Lead < ApplicationRecord
   attr_accessor :call_mode
 
   def self.next
-    # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never reached and triggered a new event since we tried to dial them:
-    hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where("phone <> ''").order(:updated_at).last
+    # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
+    hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where("phone <> ''").order(:updated_at).last
     return hot_lead if hot_lead
     # If we can't find a hot lead, we return people who have only been dialed once but we've never reached:
-    return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
+    return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
   end
 
+  # This gets called when a call-converter processes a lead while in "Outbound Mode"
   def process
     # A lead becomes "cold" once processed. "contacted" is our term for processed. We also record that we've made another dial to this lead:
     self.update(hot: false, contacted: true, number_of_dials: self.number_of_dials + 1)
+
     # Record the process time only the first time the lead is processed:
     self.update(process_time: Time.now) unless self.process_time
+
+    # For those we set an appointment with:
+    if self.appointment_date
+      # Send a calendar invite to the lead:
+      # This feature is commented out since it's not complete right now:
+      # CalendarInvitesMailer.appointment(self).deliver_now
+
+      # Mark lead as connected in case the call-converter forgot to:
+      self.update(connected: true)
+    end
+
+    # Leave a text message for certain people
     if should_be_left_a_message
       text
     end
+    
   end
 
   def text
@@ -40,6 +55,11 @@ class Lead < ApplicationRecord
     return nil unless self.process_time
     number_of_seconds = self.process_time - self.created_at
     return (number_of_seconds / 60).to_i
+  end
+
+  # Reset a lead to as if it's brand new. This is useful for manual testing.
+  def reset
+    self.update(hot: true, contacted: false, connected: false, exclude_from_calling: false, appointment_date: nil, advisor: nil, number_of_dials: 0)
   end
 
   private
