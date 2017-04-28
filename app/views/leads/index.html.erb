@@ -25,10 +25,10 @@
                   <th>Email</th>
                   <th>Phone</th>
                   <th>City</th>
-                  <th>State</th>
                   <th>Hot?</th>
                   <th>Contacted</th>
                   <th>Appointment Date</th>
+                  <th>Processed Within</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,10 +40,10 @@
                     <td><%= link_to lead.email, edit_lead_path(lead) %></td>
                     <td><%= lead.phone %></td>
                     <td><%= lead.city %></td>
-                    <td><%= lead.state %></td>
                     <td><%= lead.hot %></td>
                     <td><%= lead.contacted %></td>
                     <td><%= lead.appointment_date %></td>
+                    <td><%= lead.processed_within_minutes %> minutes</td>
                   </tr>
                 <% end %>
               </tbody>

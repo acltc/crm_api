@@ -31,6 +31,12 @@ class Lead < ApplicationRecord
     "#{self.first_name} #{self.last_name}"
   end
 
+  def processed_within_minutes
+    return nil unless self.process_time
+    number_of_seconds = self.process_time - self.created_at
+    return (number_of_seconds / 60).to_i
+  end
+
   private
 
   def standardize_phone
