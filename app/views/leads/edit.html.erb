@@ -164,6 +164,12 @@
               </div>
             </div>
             <div class="form-group row">
+              <%= f.label :meeting_format, "Meeting Format", {class: "col-sm-2 form-control-label"} %>
+              <div class="col-sm-10 select">
+                <%= f.select(:meeting_format, options_for_select([['In-Person'], ['Video Chat'], ['Phone Chat']], @lead.meeting_format), {:include_blank => 'Select Meeting Format'}, {class: 'form-control'}) %>
+              </div>
+            </div>
+            <div class="form-group row">
               <%= f.label :appointment_date, "Appointment Date", {class: "col-sm-2 form-control-label"} %>
               <div class="col-sm-10 select">
                 <%= f.datetime_field :appointment_date, {class: 'form-control'} %>
