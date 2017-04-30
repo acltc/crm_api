@@ -12,28 +12,23 @@ class CalendarInvitesMailer < ApplicationMailer
     ical.event do |e|
       e.dtstart     = Icalendar::Values::DateTime.new(@lead.appointment_date)
       # the default calendar invite is for 1 hour, so we don't need to set an endtime
-      e.summary     = "ACTUALIZE #{@lead.location}: Meeting - #{@lead.first_name} <> #{@lead.advisor}"
+      e.summary     = "ACTUALIZE #{@lead.location}: #{@lead.meeting_type} - #{@lead.first_name} <> #{@lead.advisor}"
       e.description = %Q(
-      RE: #{@lead.meeting_type}
 
-      Hello #{@lead.first_name}!
+      Hello, #{@lead.first_name}!
 
       Thank you for your interest in Actualize Coding Bootcamp. Per our
       conversation, you are scheduled for a #{@lead.meeting_type} with our
       Admissions Advisor, #{@advisor_info[:full_name]}. #{@lead.advisor} will
       reach out to you shortly.
 
-      To confirm your appointment, please accept your calendar invite. 
+      To confirm your appointment, please accept this calendar invite. 
 
       We look forward to mentoring you on your journey to success!
 
       #{@advisor_info[:full_name]} 
       #{@advisor_info[:phone]} 
       #{@lead.advisor.downcase}@actualize.co
-
-      #{@lead.full_name}
-      #{@lead.email}
-      #{@lead.phone}
       )
     end
     ical.publish

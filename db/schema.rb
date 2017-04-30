@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428154639) do
+ActiveRecord::Schema.define(version: 20170428192802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20170428154639) do
     t.text     "rep_notes"
     t.integer  "number_of_dials",           default: 0
     t.string   "meeting_type"
+    t.string   "meeting_format"
   end
 
   create_table "settings", force: :cascade do |t|
