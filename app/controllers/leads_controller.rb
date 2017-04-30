@@ -51,10 +51,12 @@ class LeadsController < ApplicationController
     render json: {identity: identity, token: token}
   end
 
+  # Make voice calls through the browser:
   def voice
+    from_number = params['FromNumber'].blank? ? ENV['TWILIO_CALLER_ID'] : params['FromNumber']
     twiml = Twilio::TwiML::Response.new do |r|
       if params['To'] and params['To'] != ''
-        r.Dial callerId: ENV['TWILIO_CALLER_ID'] do |d|
+        r.Dial callerId: from_number do |d|
           # wrap the phone number or client name in the appropriate TwiML verb
           # by checking if the number given has only digits and format symbols
           if params['To'] =~ /^[\d\+\-\(\) ]+$/
@@ -71,17 +73,19 @@ class LeadsController < ApplicationController
     render xml: twiml.text
   end
 
+  # Text from the browser:
   def text
     @client = Twilio::REST::Client.new
     @client.messages.create(
-      from: '+17734666919',
+      from: '+17734666919', # Default Twilio number
       to: params[:phone],
       body: params[:body]
     )
 
+    # Send a text to Ben to confirm that text went through:
     @client.messages.create(
-      from: '+17734666919',
-      to: '+17737241128',
+      from: '+17734666919', # Default Twilio number
+      to: '+17737241128', # Ben's number
       body: "You sent: #{params[:body]}"
     )
     render nothing: true
