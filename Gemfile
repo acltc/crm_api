@@ -44,6 +44,8 @@ gem 'drip-ruby', require: 'drip'
 gem 'devise'
 gem 'twilio-ruby', '4.13.0'
 gem 'phone', '1.2.3'
+gem 'icalendar', '2.4.1'
+gem 'geocoder', '1.3.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

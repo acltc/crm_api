@@ -3,7 +3,7 @@ class WebhooksController < ApplicationController
     twiml = Twilio::TwiML::Response.new do |r|
       if params['From'] and params['From'] != ''
         r.Dial callerId: params['From'] do |d|
-          d.Number '+17737241128'
+          d.Number '+17737241128' # Ben's number
         end
       else
         r.Say "Thanks for calling!"
@@ -25,8 +25,8 @@ class WebhooksController < ApplicationController
     
     @client = Twilio::REST::Client.new
     @client.messages.create(
-      from: '+17734666919',
-      to: '+17737241128',
+      from: '+17734666919', # Default Twilio number
+      to: '+17737241128', # Ben's number
       body: "Message from #{params['From']}: #{params['Body']}. Extra Info: #{extra_info}"
     )
   end

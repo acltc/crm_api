@@ -24,11 +24,10 @@
                   <th>Last Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>City</th>
-                  <th>State</th>
+                  <th>Campus</th>
                   <th>Hot?</th>
-                  <th>Contacted</th>
                   <th>Appointment Date</th>
+                  <th>Processed Within</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,11 +38,10 @@
                     <td><%= lead.last_name %></td>
                     <td><%= link_to lead.email, edit_lead_path(lead) %></td>
                     <td><%= lead.phone %></td>
-                    <td><%= lead.city %></td>
-                    <td><%= lead.state %></td>
+                    <td><%= lead.location %></td>
                     <td><%= lead.hot %></td>
-                    <td><%= lead.contacted %></td>
-                    <td><%= lead.appointment_date %></td>
+                    <td><%= lead.appointment_date ? lead.appointment_date.strftime("%A %b %e, %l:%M %p") : nil %></td>
+                    <td><%= lead.processed_within_minutes ? "#{lead.processed_within_minutes} minutes" : "not called" %></td>
                   </tr>
                 <% end %>
               </tbody>

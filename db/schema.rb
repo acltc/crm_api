@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427191700) do
+ActiveRecord::Schema.define(version: 20170501185444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,16 @@ ActiveRecord::Schema.define(version: 20170427191700) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "daily_progress_logs", force: :cascade do |t|
+    t.integer  "admin_id"
+    t.date     "date"
+    t.integer  "processed",  default: 0
+    t.integer  "connects",   default: 0
+    t.integer  "sets",       default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.string   "name"
     t.integer  "lead_id"
@@ -53,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170427191700) do
     t.string   "state"
     t.string   "zip"
     t.boolean  "contacted",                 default: false
-    t.date     "appointment_date"
+    t.datetime "appointment_date"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.text     "notes"
@@ -79,7 +89,12 @@ ActiveRecord::Schema.define(version: 20170427191700) do
     t.string   "next_step"
     t.text     "rep_notes"
     t.integer  "number_of_dials",           default: 0
+<<<<<<< HEAD
     t.boolean  "old_lead",                  default: false
+=======
+    t.string   "meeting_type"
+    t.string   "meeting_format"
+>>>>>>> 5dbd3c9517451c7613518366abafe86b1693e272
   end
 
   create_table "settings", force: :cascade do |t|

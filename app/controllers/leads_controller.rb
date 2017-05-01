@@ -13,7 +13,7 @@ class LeadsController < ApplicationController
 
   def next
     @outbound_mode_active = "active"
-    @lead = Lead.next
+    @lead = Lead.next(current_admin.email)
     @call_mode = true
     if @lead
       render :edit
@@ -25,13 +25,14 @@ class LeadsController < ApplicationController
   def update
     @lead = Lead.find_by(id: params[:id])
     if @lead.update(lead_params)
-      # If we're in call mode, process and move on to the next lead
-      if params[:lead][:call_mode]
+      # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
+      if params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
         @lead.process
-        redirect_to "/"
+        current_admin.record_progress(@lead)
+        redirect_to "/next"
       else # if we're simply updating a lead
         flash[:success] = "Lead saved!"
-        redirect_to '/leads'
+        redirect_to '/'
       end
     else
       flash[:error] = "ERROR: We could not update this lead."
@@ -51,10 +52,12 @@ class LeadsController < ApplicationController
     render json: {identity: identity, token: token}
   end
 
+  # Make voice calls through the browser:
   def voice
+    from_number = params['FromNumber'].blank? ? ENV['TWILIO_CALLER_ID'] : params['FromNumber']
     twiml = Twilio::TwiML::Response.new do |r|
       if params['To'] and params['To'] != ''
-        r.Dial callerId: ENV['TWILIO_CALLER_ID'] do |d|
+        r.Dial callerId: from_number do |d|
           # wrap the phone number or client name in the appropriate TwiML verb
           # by checking if the number given has only digits and format symbols
           if params['To'] =~ /^[\d\+\-\(\) ]+$/
@@ -71,17 +74,19 @@ class LeadsController < ApplicationController
     render xml: twiml.text
   end
 
+  # Text from the browser:
   def text
     @client = Twilio::REST::Client.new
     @client.messages.create(
-      from: '+17734666919',
+      from: '+17734666919', # Default Twilio number
       to: params[:phone],
       body: params[:body]
     )
 
+    # Send a text to Ben to confirm that text went through:
     @client.messages.create(
-      from: '+17734666919',
-      to: '+17737241128',
+      from: '+17734666919', # Default Twilio number
+      to: '+17737241128', # Ben's number
       body: "You sent: #{params[:body]}"
     )
     render nothing: true
@@ -93,6 +98,6 @@ class LeadsController < ApplicationController
   private
 
   def lead_params
-    params.require(:lead).permit(:first_name, :last_name, :email, :phone, :city, :state, :zip, :contacted, :appointment_date, :notes, :connected, :bad_number, :advisor, :location, :first_appointment_set, :first_appointment_actual, :first_appointment_format, :second_appointment_set, :second_appointment_actual, :second_appointment_format, :enrolled_date, :deposit_date, :sales, :collected, :status, :next_step, :rep_notes, :exclude_from_calling)
+    params.require(:lead).permit(:first_name, :last_name, :email, :phone, :city, :state, :zip, :contacted, :appointment_date, :notes, :connected, :bad_number, :advisor, :location, :first_appointment_set, :first_appointment_actual, :first_appointment_format, :second_appointment_set, :second_appointment_actual, :second_appointment_format, :enrolled_date, :deposit_date, :sales, :collected, :status, :next_step, :rep_notes, :exclude_from_calling, :meeting_type, :meeting_format)
   end
 end
