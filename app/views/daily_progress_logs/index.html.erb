@@ -7,12 +7,12 @@
 
     <div class="row">
       <table class="table">
-        <th>
-          <td>Date</td>
-          <td>Processed</td>
-          <td>Connects</td>
-          <td>Sets</td>
-        </th>
+        <tr>
+          <th>Date</th>
+          <th>Processed</th>
+          <th>Connects</th>
+          <th>Sets</th>
+        </tr>
         <% @logs.each do |log| %>
           <tr>
             <td><%= log.date %></td>
