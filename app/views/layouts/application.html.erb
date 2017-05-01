@@ -48,6 +48,7 @@
           <ul id="side-main-menu" class="side-menu list-unstyled">
             <li class="<%= @all_leads_active %>"><a href="/"> <i class="icon-home"></i><span>All Leads</span></a></li>
             <li class="<%= @outbound_mode_active %>"> <a href="/next"><i class="icon-form"></i><span>Outbound Mode</span></a></li>
+            <li class="<%= @daily_progress_active %>"> <a href="/next"><i class="icon-line-chart"></i><span>Daily Progress</span></a></li>
             <% if admin_signed_in? %>
               <li><%= link_to(destroy_admin_session_path, :method => :delete) do %>
                     <i class="icon-user"></i><span>Log Out</span>
