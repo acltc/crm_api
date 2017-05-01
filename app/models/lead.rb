@@ -5,12 +5,16 @@ class Lead < ApplicationRecord
 
   attr_accessor :call_mode
 
-  def self.next
-    # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
-    hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where("phone <> ''").order(:updated_at).last
-    return hot_lead if hot_lead
-    # If we can't find a hot lead, we return people who have only been dialed once but we've never reached:
-    return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
+  def self.next(admin_email=nil)
+    if admin == "stefanie@anyonecanlearntocode.com"
+      return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
+    else 
+      # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
+      hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where("phone <> ''").order(:updated_at).last
+      return hot_lead if hot_lead
+      # If we can't find a hot lead, we return people who have only been dialed once but we've never reached:
+      return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
+    end
   end
 
   # This gets called when a call-converter processes a lead while in "Outbound Mode"

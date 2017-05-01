@@ -13,7 +13,7 @@ class LeadsController < ApplicationController
 
   def next
     @outbound_mode_active = "active"
-    @lead = Lead.next
+    @lead = Lead.next(current_admin.email)
     @call_mode = true
     if @lead
       render :edit
