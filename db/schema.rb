@@ -89,12 +89,9 @@ ActiveRecord::Schema.define(version: 20170501185444) do
     t.string   "next_step"
     t.text     "rep_notes"
     t.integer  "number_of_dials",           default: 0
-<<<<<<< HEAD
     t.boolean  "old_lead",                  default: false
-=======
     t.string   "meeting_type"
     t.string   "meeting_format"
->>>>>>> 5dbd3c9517451c7613518366abafe86b1693e272
   end
 
   create_table "settings", force: :cascade do |t|
