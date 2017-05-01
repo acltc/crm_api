@@ -28,6 +28,7 @@ class LeadsController < ApplicationController
       # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
       if params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
         @lead.process
+        current_admin.record_progress(@lead)
         redirect_to "/next"
       else # if we're simply updating a lead
         flash[:success] = "Lead saved!"
