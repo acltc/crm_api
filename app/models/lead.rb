@@ -7,7 +7,7 @@ class Lead < ApplicationRecord
 
   def self.next(admin_email=nil)
     if admin_email == "stefanie@anyonecanlearntocode.com" || admin_email == "rena@actualize.co"
-      return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
+      return Lead.where(number_of_dials: 1).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(connected: false).where(bad_number: false).where("phone <> ''").order(:updated_at).last
     else 
       # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
       hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where("phone <> ''").order(:updated_at).last
