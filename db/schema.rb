@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20170501185444) do
     t.string   "next_step"
     t.text     "rep_notes"
     t.integer  "number_of_dials",           default: 0
+    t.boolean  "old_lead",                  default: false
     t.string   "meeting_type"
     t.string   "meeting_format"
   end
