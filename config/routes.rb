@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post '/voice' => 'leads#voice'
   post '/text' => 'leads#text'
 
+  get '/daily_logs' => 'daily_progress_logs#index'
 
   post '/incoming_voice' => 'webhooks#incoming_voice'
   post '/incoming_text' => 'webhooks#incoming_text'
