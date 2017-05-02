@@ -8,9 +8,9 @@ class Lead < ApplicationRecord
   def self.next(admin_email=nil)
     if admin_email == "rena@actualize.co"
       return Lead.where("number_of_dials < 2").where(old_lead: false).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
-    elsif admin_email = "zev@actualize.co"
+    elsif admin_email == "zev@actualize.co"
       return Lead.where("number_of_dials < 2").where(old_lead: true).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
-    else 
+    else
       # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
       hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
       return hot_lead if hot_lead
@@ -41,7 +41,7 @@ class Lead < ApplicationRecord
     if should_be_left_a_message
       text
     end
-    
+
   end
 
   def text
@@ -73,7 +73,7 @@ class Lead < ApplicationRecord
   def standardize_phone
     begin
       self.standard_phone = Phoner::Phone.parse(self.phone, country_code: '1').to_s
-    rescue 
+    rescue
       # this will throw an exception if the given phone number is very off
     end
   end
