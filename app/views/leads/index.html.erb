@@ -1,7 +1,7 @@
 
 <section class="charts">
   <div class="container-fluid">
-    <header> 
+    <header>
       <h1 class="h3">All Leads</h1>
     </header>
     <div class="row">
@@ -12,44 +12,39 @@
 
     </div>
     <div class="row">
-      
-      <div class="">
-        <div class="card">
-          <div class="card-block">
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>Created</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Campus</th>
-                  <th>Hot?</th>
-                  <th>Appointment Date</th>
-                  <th>Processed Within</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @leads.each do |lead| %>
-                  <tr>
-                    <td><%= lead.created_at.strftime("%A %b %e, %l:%M %p") %></td>
-                    <td><%= lead.first_name %></td>
-                    <td><%= lead.last_name %></td>
-                    <td><%= link_to lead.email, edit_lead_path(lead) %></td>
-                    <td><%= lead.phone %></td>
-                    <td><%= lead.location %></td>
-                    <td><%= lead.hot %></td>
-                    <td><%= lead.appointment_date ? lead.appointment_date.strftime("%A %b %e, %l:%M %p") : nil %></td>
-                    <td><%= lead.processed_within_minutes ? "#{lead.processed_within_minutes} minutes" : "not called" %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="table-responsive leads-table">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Campus</th>
+              <th>Hot?</th>
+              <th>Appointment Date</th>
+              <th>Processed Within</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @leads.each do |lead| %>
+              <tr>
+                <td><%= lead.created_at.strftime("%A %b %e, %l:%M %p") %></td>
+                <td><%= lead.first_name %></td>
+                <td><%= lead.last_name %></td>
+                <td><%= link_to lead.email, edit_lead_path(lead) %></td>
+                <td><%= lead.phone %></td>
+                <td><%= lead.location %></td>
+                <td><%= lead.hot %></td>
+                <td><%= lead.appointment_date ? lead.appointment_date.strftime("%A %b %e, %l:%M %p") : nil %></td>
+                <td><%= lead.processed_within_minutes ? "#{lead.processed_within_minutes} minutes" : "not called" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
-      
+
 
     </div>
   </div>
