@@ -21,3 +21,11 @@
 .sign-in-form {
   margin-top: 40px;
 }
+
+.leads-table {
+  margin-top: 20px;
+}
+
+.leads-table tr {
+  background-color: #fff;
+}
