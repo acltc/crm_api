@@ -33,7 +33,7 @@ class LeadsController < ApplicationController
         client.apply_tag(@lead.email, "contacted")
       end
       # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
-      if params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
+      if we_are_processing_the_lead
         @lead.process
         current_admin.record_progress(@lead)
         redirect_to "/next"
@@ -103,6 +103,10 @@ class LeadsController < ApplicationController
   end
 
   private
+
+  def we_are_processing_the_lead
+    params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
+  end
 
   def lead_params
     params.require(:lead).permit(:first_name, :last_name, :email, :phone, :city, :state, :zip, :contacted, :appointment_date, :notes, :connected, :bad_number, :advisor, :location, :first_appointment_set, :first_appointment_actual, :first_appointment_format, :second_appointment_set, :second_appointment_actual, :second_appointment_format, :enrolled_date, :deposit_date, :sales, :collected, :status, :next_step, :rep_notes, :exclude_from_calling, :meeting_type, :meeting_format)
