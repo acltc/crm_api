@@ -26,9 +26,6 @@ class LeadsController < ApplicationController
     @lead = Lead.find_by(id: params[:id])
     if @lead.update(lead_params)
       if params[:lead][:connected] == '1'
-        puts '*******************************************'
-        puts 'FIRE DRIP CALL'
-
         client = Drip::Client.new do |c|
           c.api_key = ENV["DRIP_API_KEY"]
           c.account_id = ENV["DRIP_ACCOUNT_ID"]
