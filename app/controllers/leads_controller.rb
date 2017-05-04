@@ -25,6 +25,13 @@ class LeadsController < ApplicationController
   def update
     @lead = Lead.find_by(id: params[:id])
     if @lead.update(lead_params)
+      if params[:lead][:connected] == '1'
+        client = Drip::Client.new do |c|
+          c.api_key = ENV["DRIP_API_KEY"]
+          c.account_id = ENV["DRIP_ACCOUNT_ID"]
+        end
+        client.apply_tag(@lead.email, "contacted")
+      end
       # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
       if params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
         @lead.process
