@@ -1,6 +1,6 @@
 <section class="forms">
   <div class="container-fluid">
-    <header> 
+    <header>
       <% if @call_mode %>
         <h1 class="h3 display">Next Lead: <%= @lead.full_name %></h1>
       <% else %>
@@ -33,6 +33,26 @@
               <button id="button-hangup" class="btn btn-danger">Hangup</button>
             </div>
             <div id="log"></div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">Text History</h2>
+          </div>
+
+          <div class="">
+            <h3>THIS IS SOME TEXT</h3>
+<% @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'] %>
+            <% @client.account.messages.list({
+  :to   => '+17737241128',
+  :from => '+17734666919',
+}).each do |message| %>
+<div class="alert alert-info" role="alert"><p><%= message.body %></p></div>
+
+            <% end %>
           </div>
 
         </div>
@@ -93,7 +113,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
       <div class="col-lg-6">
         <div class="card">
@@ -197,7 +217,7 @@
                   </div>
                 </div>
               </div>
-            <% end %>          
+            <% end %>
             <div class="form-group row">
               <div class="col-sm-10">
                 <div class="i-checks">

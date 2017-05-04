@@ -9,7 +9,7 @@ class WebhooksController < ApplicationController
         r.Say "Thanks for calling!"
       end
     end
-    
+
     render xml: twiml.text
   end
 
@@ -17,12 +17,12 @@ class WebhooksController < ApplicationController
     begin
       standard_phone = Phoner::Phone.parse(params['From'], country_code: '1').to_s
       @lead = Lead.find_by(standard_phone: standard_phone) if standard_phone
-    rescue 
+    rescue
       # this will throw an exception if the given phone number is very off
     end
 
     extra_info = @lead.email if @lead
-    
+
     @client = Twilio::REST::Client.new
     @client.messages.create(
       from: '+17734666919', # Default Twilio number
