@@ -9,6 +9,16 @@ class LeadsController < ApplicationController
 
   def edit
     @lead = Lead.find_by(id: params[:id])
+    client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+    messages_from_lead = client.account.messages.list({
+                  :to   => '+17734666919', # Twilio
+                  :from => @lead.phone # Lead
+    })
+    messages_from_call_converter = client.account.messages.list({
+                  :to   => @lead.phone, # Lead
+                  :from => '+17734666919' # Twilio
+    })
+    @messages = (messages_from_lead + messages_from_call_converter).sort_by {|m| m.date_sent}
   end
 
   def next

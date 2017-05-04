@@ -29,3 +29,21 @@
 .leads-table tr {
   background-color: #fff;
 }
+
+.text-bubble {
+  width: 85%;
+}
+
+.alert-info {
+  float: left;
+  margin-left: 10px;
+}
+
+.alert-success {
+  float: right;
+  margin-right: 10px;
+}
+
+.text-history-header {
+  margin-bottom: 20px !important;
+}
