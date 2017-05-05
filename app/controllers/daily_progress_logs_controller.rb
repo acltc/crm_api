@@ -10,7 +10,7 @@ class DailyProgressLogsController < ApplicationController
     end
 
     if admin
-      @logs = admin.daily_progress_logs
+      @logs = admin.daily_progress_logs.order(date: :desc)
     else
       @logs = []
     end
