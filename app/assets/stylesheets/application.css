@@ -47,3 +47,26 @@
 .text-history-header {
   margin-bottom: 20px !important;
 }
+
+.text-form, #call-controls, #log {
+  padding: 12px 20px;
+}
+
+#phone-number {
+  border-radius: .25rem !important;
+  margin-bottom: 10px;
+}
+
+#from-number {
+  margin-bottom: 10px;
+}
+
+.btn-primary, .btn-info {
+  font-size: 1rem !important;
+  border-radius: 0.25rem !important;
+}
+
+#phone {
+  border-radius: .25rem !important;
+  margin-bottom: 10px;
+}
