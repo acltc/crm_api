@@ -70,3 +70,23 @@
   border-radius: .25rem !important;
   margin-bottom: 10px;
 }
+
+.update-lead-form {
+  padding: 12px 20px;
+}
+
+.update-lead-form input {
+  border-radius: .25rem !important;
+}
+
+#lead_notes {
+    height: 200px;
+}
+
+.update-btn {
+  width: 100%;
+}
+
+#update-btn-col {
+  margin: 0 auto;
+}
