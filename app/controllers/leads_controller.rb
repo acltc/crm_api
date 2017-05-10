@@ -44,6 +44,9 @@ class LeadsController < ApplicationController
       end
       # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
       if we_are_processing_the_lead
+        if @lead.connected && @lead.appointment_date
+          WelcomeMailer.welcome_email(@lead).deliver_now
+        end
         @lead.process
         current_admin.record_progress(@lead)
         redirect_to "/next"
