@@ -109,10 +109,6 @@ class LeadsController < ApplicationController
     render nothing: true
   end
 
-  def voicemail
-    
-  end
-
   def no_leads
   end
 

@@ -1,4 +1,4 @@
-<section class="forms">
+  <section class="forms">
   <div class="container-fluid">
     <header>
       <% if @call_mode %>
@@ -154,10 +154,12 @@
     // get the phone number to connect the call to
     var params = {
       To: document.getElementById('phone-number').value,
-      FromNumber: document.getElementById('from-number').value
+      FromNumber: document.getElementById('from-number').value,
+      MachineDetection: 'DetectMessageEnd'
     };
 
     console.log('Calling ' + params.To + '...');
+    console.log(params);
     Twilio.Device.connect(params);
   };
 
