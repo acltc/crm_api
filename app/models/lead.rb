@@ -10,12 +10,15 @@ class Lead < ApplicationRecord
       return Lead.where("number_of_dials < 2").where("process_time < ?", 1.day.ago).where(old_lead: false).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
     elsif admin_email == "zev@actualize.co"
       return Lead.where("number_of_dials < 2").where(old_lead: true).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
-    else
+    else # Ben
+      Lead.joins(:events).where("events.name = 'Tour'").where(appointment_date: nil).where(connected: false).where("number_of_dials < 2").where(exclude_from_calling: false).where(bad_number: false).order(:updated_at).last
       # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
-      hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
-      return hot_lead if hot_lead
+      # ORIGINAL BEN: 
+
+      #hot_lead = Lead.where(hot: true).where(exclude_from_calling: false).where(connected: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
+      #return hot_lead if hot_lead
       # If we can't find a hot lead, we return people who have only been dialed once but we've never reached:
-      return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
+      #return Lead.where(number_of_dials: 1).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
     end
   end
 
