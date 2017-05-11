@@ -1,5 +1,5 @@
 class WelcomeMailer < ApplicationMailer
-  default from: 'admissions@actualize.co'
+  default from: '"Actualize Admissions" <admissions@actualize.co>'
 
   def welcome_email(lead)
     attachments.inline["welcome-email-image.jpg"] = File.read("#{Rails.root}/app/assets/images/welcome-email-image.jpg")
