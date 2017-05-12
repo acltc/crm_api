@@ -11,7 +11,7 @@ class Lead < ApplicationRecord
     elsif admin_email == "zev@actualize.co"
       return Lead.where("number_of_dials < 2").where(old_lead: true).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
     else # Ben
-      Lead.joins(:events).where("events.name = 'Tour'").where(appointment_date: nil).where(connected: false).where("number_of_dials < 2").where(exclude_from_calling: false).where(bad_number: false).order(:updated_at).last
+      Lead.joins(:events).where("events.name = 'Tour'").where(appointment_date: nil).where(connected: false).where("number_of_dials < 2").where(exclude_from_calling: false).where("phone <> ''").where(bad_number: false).order(:updated_at).last
       # We first look for a hot lead. This is defined by a lead who was either never dialed (contacted) or someone who we dialed but never connected with and they triggered a new event since we last dialed them them:
       # ORIGINAL BEN: 
 
