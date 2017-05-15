@@ -90,3 +90,6 @@
 #update-btn-col {
   margin: 0 auto;
 }
+
+.form-group.row.text-btn {
+    padding-left: 15px;

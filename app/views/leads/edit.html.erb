@@ -21,7 +21,7 @@
               <div id="client-name"></div>
             </div>
             <div id="call-controls">
-              <p>We think this lead is from <%= Geocoder.address(@lead.ip) %></p>
+              <!-- <p>We think this lead is from <%= Geocoder.address(@lead.ip) %></p> -->
               <input id="phone-number" type="text" value="<%= @lead.phone %>" class="form-control"/>
               <select id="from-number" class="form-control">
                 <option value="">Choose where to call from:</option>
@@ -50,9 +50,9 @@
                 <%= text_area_tag :body, nil, {class: "form-control form-control-warning"} %>
               </div>
             </div>
-            <div class="form-group row">
-              <div class="col-sm-2">
-                <%= submit_tag "Text", {class: "form-control btn btn-info"} %>
+            <div class="form-group row text-btn">
+              <div>
+                <%= submit_tag "Text", {class: "form-control btn btn-info text-btn"} %>
               </div>
             </div>
             <% end %>
@@ -103,19 +103,19 @@
   // log('Requesting Capability Token...');
   $.getJSON('/token')
     .done(function (data) {
-      log('Got a token.');
+      // log('Got a token.');
       console.log('Token: ' + data.token);
 
       // Setup Twilio.Device
       Twilio.Device.setup(data.token);
 
       Twilio.Device.ready(function (device) {
-        log('Twilio.Device Ready!');
+        // log('Twilio.Device Ready!');
         document.getElementById('call-controls').style.display = 'block';
       });
 
       Twilio.Device.error(function (error) {
-        log('Twilio.Device Error: ' + error.message);
+        // log('Twilio.Device Error: ' + error.message);
       });
 
       Twilio.Device.connect(function (conn) {
