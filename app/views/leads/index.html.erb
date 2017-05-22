@@ -20,6 +20,7 @@
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
+              <th>IP</th>
               <th>Phone</th>
               <th>Campus</th>
               <th>Hot?</th>
@@ -34,6 +35,7 @@
                 <td><%= lead.first_name %></td>
                 <td><%= lead.last_name %></td>
                 <td><%= link_to(lead.email, edit_lead_path(lead), data: { turbolinks: false }) %></td>
+                <td><%= lead.ip %></td>
                 <td><%= lead.phone %></td>
                 <td><%= lead.location %></td>
                 <td><%= lead.hot %></td>
