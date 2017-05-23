@@ -204,7 +204,7 @@ DEPENDENCIES
   drip-ruby
   faker
   figaro
-  geocoder
+  geocoder (= 1.4.4)
   icalendar (= 2.4.1)
   jbuilder (~> 2.5)
   jquery-rails
