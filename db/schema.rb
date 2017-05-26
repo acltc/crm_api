@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504163326) do
+ActiveRecord::Schema.define(version: 20170526204821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20170504163326) do
     t.string   "meeting_format"
     t.boolean  "old_lead",                  default: false
     t.string   "ip_state"
+    t.boolean  "online",                    default: false
   end
 
   create_table "settings", force: :cascade do |t|
