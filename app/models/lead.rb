@@ -7,7 +7,7 @@ class Lead < ApplicationRecord
 
   def self.next(admin_email=nil)
     if admin_email == "rena@actualize.co"
-      return Lead.where(old_lead: false).where(exclude_from_calling: false).where(contacted: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").where("events.name = 'Started Application'").order(:updated_at).last
+      return Lead.joins.(:events).where(old_lead: false).where(exclude_from_calling: false).where(contacted: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").where("events.name = 'Started Application'").order(:updated_at).last
     elsif admin_email == "zev@actualize.co"
       return Lead.where("number_of_dials < 2").where(old_lead: true).where(hot: false).where(exclude_from_calling: false).where(connected: false).where(bad_number: false).where('enrolled_date is null').where("phone <> ''").order(:updated_at).last
     else # Ben
