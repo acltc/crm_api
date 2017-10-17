@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To get started, clone this codebase, and in the project's directory in the terminal, run the following commands:
 
-Things you may want to cover:
+```
+bundle
+rake db:create
+rake db:migrate
+rake db:seed
+```
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+You will also have to create an application.yml file in the `config` folder. You must ask your project leader for the code for this file, as it contains sensitive information that cannot be published on Github.
