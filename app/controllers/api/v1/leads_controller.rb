@@ -27,19 +27,7 @@ class Api::V1::LeadsController < ApplicationController
     if params[:name] == "Finished Application"
       @lead.update(connected: true, hot: false)
     end
-    create_drip_lead
     render "show.json.jbuilder"
   end
 
-  private
-
-    def create_drip_lead
-      client = Drip::Client.new do |c|
-        c.api_key = ENV["DRIP_API_KEY"]
-        c.account_id = ENV["DRIP_ACCOUNT_ID"]
-      end
-
-      client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
-      client.subscribe(@lead.email, 34197704)
-    end
 end
