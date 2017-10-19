@@ -11,12 +11,12 @@ class LeadsController < ApplicationController
     @lead = Lead.find_by(id: params[:id])
     client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     messages_from_lead = client.account.messages.list({
-                  :to   => '+17734666919', # Twilio
-                  :from => @lead.phone # Lead
+                  :to   => ENV['TWILIO_PHONE_NUMBER'], 
+                  :from => @lead.phone
     })
     messages_from_call_converter = client.account.messages.list({
-                  :to   => @lead.phone, # Lead
-                  :from => '+17734666919' # Twilio
+                  :to   => @lead.phone,
+                  :from => ENV['TWILIO_PHONE_NUMBER']
     })
     @messages = (messages_from_lead + messages_from_call_converter).sort_by {|m| m.date_sent}
   end
@@ -34,26 +34,9 @@ class LeadsController < ApplicationController
 
   def update
     @lead = Lead.find_by(id: params[:id])
-    if @lead.update(lead_params)
-      if params[:lead][:connected] == '1'
-        client = Drip::Client.new do |c|
-          c.api_key = ENV["DRIP_API_KEY"]
-          c.account_id = ENV["DRIP_ACCOUNT_ID"]
-        end
-        client.apply_tag(@lead.email, "contacted")
-      end
-      # If we're in call mode or we explicity process a lead by clicking on the 'process' checkbox from the edit screen, process and move on to the next lead
-      if we_are_processing_the_lead
-        if @lead.connected && @lead.appointment_date
-          WelcomeMailer.welcome_email(@lead).deliver_now
-        end
-        @lead.process
-        current_admin.record_progress(@lead)
-        redirect_to "/next"
-      else # if we're simply updating a lead
-        flash[:success] = "Lead saved!"
-        redirect_to '/'
-      end
+    if @lead.update(lead_params)    
+      flash[:success] = "Lead saved!"
+      redirect_to '/'
     else
       flash[:error] = "ERROR: We could not update this lead."
       render :next
@@ -98,17 +81,11 @@ class LeadsController < ApplicationController
   def text
     @client = Twilio::REST::Client.new
     @client.messages.create(
-      from: '+17734666919', # Default Twilio number
+      from: ENV['TWILIO_PHONE_NUMBER'], # Default Twilio number
       to: params[:phone],
       body: params[:body]
     )
 
-    # Send a text to Ben to confirm that text went through:
-    @client.messages.create(
-      from: '+17734666919', # Default Twilio number
-      to: '+17737241128', # Ben's number
-      body: "You sent: #{params[:body]}"
-    )
     render nothing: true
   end
 
@@ -116,10 +93,6 @@ class LeadsController < ApplicationController
   end
 
   private
-
-  def we_are_processing_the_lead
-    params[:lead][:call_mode] == "true" || params[:lead][:call_mode] == "1"
-  end
 
   def lead_params
     params.require(:lead).permit(:first_name, :last_name, :email, :phone, :city, :state, :zip, :contacted, :appointment_date, :notes, :connected, :bad_number, :advisor, :location, :first_appointment_set, :first_appointment_actual, :first_appointment_format, :second_appointment_set, :second_appointment_actual, :second_appointment_format, :enrolled_date, :deposit_date, :sales, :collected, :status, :next_step, :rep_notes, :exclude_from_calling, :meeting_type, :meeting_format)

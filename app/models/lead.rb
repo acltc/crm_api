@@ -50,7 +50,7 @@ class Lead < ApplicationRecord
   def text
     @client = Twilio::REST::Client.new
     @client.messages.create(
-      from: '+17734666919',
+      from: ENV['TWILIO_PHONE_NUMBER'],
       to: self.phone,
       body: 'Hi - this is Ben from Actualize. Do you have a minute to chat?'
     )
