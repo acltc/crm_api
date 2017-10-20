@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 contacted = [true, false]
-event_name = ['fb_form', 'footer_form', 'tutorials', 'tour', 'ebook', 'curriculum']
+event_name = ['footer_form', 'tutorials', 'started application']
 
 Admin.create(email: "test@test.com", password: "password", password_confirmation: "password")
 

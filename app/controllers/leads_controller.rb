@@ -4,11 +4,29 @@ class LeadsController < ApplicationController
   def index
     @all_leads_active = "active"
     @leads = Lead.where("phone <> ''").order(created_at: :desc)
+    # If someone used the search box:
     @leads = Lead.where("first_name ILIKE ? OR last_name ILIKE ? OR email ILIKE ? OR phone ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%").order(created_at: :desc) if params[:search]
+  end
+
+  # This is a special feature for call converters who can just call lead after
+  # lead without thinking. That is, an automated algorithm decides who the 
+  # call converter should call next based on which lead is most likely to answer
+  # their phone at this time.
+  def next
+    @outbound_mode_active = "active"
+    @lead = Lead.next(current_admin.email)
+    @call_mode = true
+    if @lead
+      render :edit
+    else
+      redirect_to '/no_leads'
+    end
   end
 
   def edit
     @lead = Lead.find_by(id: params[:id])
+
+    # We grab the entire text history from the Twilio API
     client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     messages_from_lead = client.account.messages.list({
                   :to   => ENV['TWILIO_PHONE_NUMBER'], 
@@ -19,17 +37,6 @@ class LeadsController < ApplicationController
                   :from => ENV['TWILIO_PHONE_NUMBER']
     })
     @messages = (messages_from_lead + messages_from_call_converter).sort_by {|m| m.date_sent}
-  end
-
-  def next
-    @outbound_mode_active = "active"
-    @lead = Lead.next(current_admin.email)
-    @call_mode = true
-    if @lead
-      render :edit
-    else
-      redirect_to '/no_leads'
-    end
   end
 
   def update
@@ -43,6 +50,8 @@ class LeadsController < ApplicationController
     end
   end
 
+
+  # This action is called by the Twilio API
   def token
     identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
 
@@ -51,7 +60,6 @@ class LeadsController < ApplicationController
     capability.allow_client_incoming identity
     token = capability.generate
 
-    # Generate the token and send to client
     render json: {identity: identity, token: token}
   end
 
@@ -81,7 +89,7 @@ class LeadsController < ApplicationController
   def text
     @client = Twilio::REST::Client.new
     @client.messages.create(
-      from: ENV['TWILIO_PHONE_NUMBER'], # Default Twilio number
+      from: ENV['TWILIO_PHONE_NUMBER'],
       to: params[:phone],
       body: params[:body]
     )
