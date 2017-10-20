@@ -2,7 +2,8 @@ class WebhooksController < ApplicationController
   # The webhooks controller are for when someone calls or texts a Twilio 
   # phone number. The way Twilio works is that when someone contacts a Twilio
   # number, Twilio makes a web request to whatever url you set up in your 
-  # Twilio account settings.
+  # Twilio account settings, which can be managed at:
+  # https://www.twilio.com/console/phone-numbers/incoming
 
   # This action gets called when someone dials our Twilio number:
   def incoming_voice

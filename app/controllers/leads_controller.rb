@@ -50,12 +50,13 @@ class LeadsController < ApplicationController
     end
   end
 
-
-  # This action is called by the Twilio API
+  # This action is called by Twilio when preparing to make outbound voice calls
+  # through the browser
   def token
     identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
 
     capability = Twilio::Util::Capability.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+    # The Twilio 
     capability.allow_client_outgoing ENV['TWILIO_TWIML_APP_SID']
     capability.allow_client_incoming identity
     token = capability.generate
@@ -63,7 +64,9 @@ class LeadsController < ApplicationController
     render json: {identity: identity, token: token}
   end
 
-  # Make voice calls through the browser:
+  # Make voice calls through the browser. This web request gets called by Twilio
+  # based on your Twilio settings, which can be modified at 
+  # https://www.twilio.com/console/voice/runtime/twiml-apps
   def voice
     from_number = params['FromNumber'].blank? ? ENV['TWILIO_CALLER_ID'] : params['FromNumber']
     twiml = Twilio::TwiML::Response.new do |r|
