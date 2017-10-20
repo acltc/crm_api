@@ -27,8 +27,11 @@ Admin.create(email: "test@test.com", password: "password", password_confirmation
 end
 
 100.times do
+  event_creation_datetime = Faker::Time.between(20.days.ago, Date.today, :all)
   Event.create(
     name: event_name.sample,
-    lead_id: rand(1..50)
+    lead_id: rand(1..50),
+    created_at: event_creation_datetime,
+    updated_at: event_creation_datetime
   )
 end
