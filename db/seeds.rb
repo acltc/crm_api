@@ -16,7 +16,7 @@ Admin.create(email: "test@test.com", password: "password", password_confirmation
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     email: Faker::Internet.email,
-    phone: Faker::PhoneNumber.phone_number,
+    phone: Phoner::Phone.parse(Faker::PhoneNumber.phone_number, country_code: '1').to_s,
     city: Faker::Address.city,
     state: Faker::Address.state,
     zip: Faker::Address.zip,
