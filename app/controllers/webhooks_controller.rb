@@ -40,7 +40,7 @@ class WebhooksController < ApplicationController
     @client = Twilio::REST::Client.new
     @client.messages.create(
       from: ENV['TWILIO_PHONE_NUMBER'],
-      to: ENV['EMPLOYEE_PHONE_NUMBER']
+      to: ENV['EMPLOYEE_PHONE_NUMBER'],
       body: "Message from #{params['From']}: #{params['Body']}. Extra Info: #{extra_info}"
     )
   end
