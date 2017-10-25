@@ -7,14 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 contacted = [true, false]
-event_name = ['fb_form', 'footer_form', 'tutorials', 'tour', 'ebook', 'curriculum']
+event_name = ['footer_form', 'tutorials', 'started application']
+
+Admin.create(email: "test@test.com", password: "password", password_confirmation: "password")
 
 50.times do
   Lead.create(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     email: Faker::Internet.email,
-    phone: Faker::PhoneNumber.phone_number,
+    phone: Phoner::Phone.parse(Faker::PhoneNumber.phone_number, country_code: '1').to_s,
     city: Faker::Address.city,
     state: Faker::Address.state,
     zip: Faker::Address.zip,
@@ -25,8 +27,11 @@ event_name = ['fb_form', 'footer_form', 'tutorials', 'tour', 'ebook', 'curriculu
 end
 
 100.times do
+  event_creation_datetime = Faker::Time.between(20.days.ago, Date.today, :all)
   Event.create(
     name: event_name.sample,
-    lead_id: rand(1..50)
+    lead_id: rand(1..50),
+    created_at: event_creation_datetime,
+    updated_at: event_creation_datetime
   )
 end

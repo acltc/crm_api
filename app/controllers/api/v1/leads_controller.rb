@@ -11,6 +11,13 @@ class Api::V1::LeadsController < ApplicationController
   end
 
   def create
+    # A lead is created by someone triggering an "event" on the website in 
+    # which they submit information like a name and email address. 
+    # If this is the first time this particular person triggered an event,
+    # they become a lead, so we store both the lead and the particular
+    # event they triggered. If they've triggered an event previously and already
+    # become a lead in the past, we just record their new event.
+    
     @lead = Lead.find_or_create_by(email: params[:email]) do |lead|
       lead.first_name = params[:first_name]
       lead.last_name = params[:last_name]
@@ -22,24 +29,8 @@ class Api::V1::LeadsController < ApplicationController
       lead.created_at = params[:created_at]
       lead.updated_at = params[:updated_at]
     end
-    @lead.update(hot: true) unless @lead.connected || @lead.bad_number
     @lead.events.create(name: params[:name], created_at: params[:created_at], updated_at: params[:updated_at])
-    if params[:name] == "Finished Application"
-      @lead.update(connected: true, hot: false)
-    end
-    create_drip_lead
     render "show.json.jbuilder"
   end
 
-  private
-
-    def create_drip_lead
-      client = Drip::Client.new do |c|
-        c.api_key = ENV["DRIP_API_KEY"]
-        c.account_id = ENV["DRIP_ACCOUNT_ID"]
-      end
-
-      client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
-      client.subscribe(@lead.email, 34197704)
-    end
 end

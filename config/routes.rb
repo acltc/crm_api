@@ -3,8 +3,6 @@ Rails.application.routes.draw do
 
   devise_for :admins
 
-  get 'settings/dashboard'
-
   resources :leads
   get '/next' => 'leads#next'
   get '/no_leads' => 'leads#no_leads'

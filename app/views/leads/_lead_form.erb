@@ -46,15 +46,15 @@
         <div class="update-lead-form">
           <div class="form-group">
             <%= f.label :location, "Which location do they want to join?", {class: "form-control-label" } %>
-            <%= f.select(:location, options_for_select([['Chicago'], ['New York City'], ['San Francisco']], @lead.location), {:include_blank => 'Select Location'}, {class: 'form-control'}) %>
+            <%= f.select(:location, options_for_select([['Chicago'], ['Online East'], ['Online West']], @lead.location), {:include_blank => 'Select Location'}, {class: 'form-control'}) %>
           </div>
           <div class="form-group">
             <%= f.label :advisor, "Advisor", {class: "form-control-label"} %>
-            <%= f.select(:advisor, options_for_select([['Nick'], ['Ray'], ['Zev']], @lead.advisor), {:include_blank => 'Select Advisor'}, {class: 'form-control'}) %>
+            <%= f.select(:advisor, options_for_select([['Nick']], @lead.advisor), {:include_blank => 'Select Advisor'}, {class: 'form-control'}) %>
           </div>
           <div class="form-group">
             <%= f.label :meeting_type, "Meeting Type", {class: "form-control-label"} %>
-            <%= f.select(:meeting_type, options_for_select([['Application Interview'], ['Tour'], ['Career Coaching Session']], @lead.meeting_type), {:include_blank => 'Select Meeting Type'}, {class: 'form-control'}) %>
+            <%= f.select(:meeting_type, options_for_select([['Application Interview'], ['Other']], @lead.meeting_type), {:include_blank => 'Select Meeting Type'}, {class: 'form-control'}) %>
           </div>
           <div class="form-group">
             <%= f.label :meeting_format, "Meeting Format", {class: "form-control-label"} %>
@@ -200,12 +200,7 @@
               </div>
             </div>
             <div>
-              <div class="form-group">
-                <%= f.label :call_mode, "Officially Process?" %>
-                <%= f.check_box :call_mode %>
-              </div>
-            </div>
-          </div>
+
         <% end %>
     </div>
   </div>
