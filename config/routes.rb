@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: 'leads#index'
-
+  # fake feature
   devise_for :admins
 
   resources :leads
