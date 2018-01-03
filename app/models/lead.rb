@@ -1,6 +1,6 @@
 class Lead < ApplicationRecord
   has_many :events
-
+  has_many :outreaches
   before_save :standardize_phone
 
   attr_accessor :call_mode
@@ -27,9 +27,9 @@ class Lead < ApplicationRecord
   end
 
   def processed_within_minutes
-    return nil unless self.process_time
+    return 'not called' unless self.process_time
     number_of_seconds = self.process_time - self.created_at
-    return (number_of_seconds / 60).to_i
+    return "#{(number_of_seconds / 60).to_i} minutes"
   end
 
   # Reset a lead as if it's brand new. This is useful for manual testing.

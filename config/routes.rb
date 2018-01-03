@@ -9,14 +9,24 @@ Rails.application.routes.draw do
   get '/token' => 'leads#token'
   post '/voice' => 'leads#voice'
   post '/text' => 'leads#text'
+  post '/auto_text/:id' => 'leads#auto_text'
+
+  get '/settings' => 'settings#new'
+  post '/settings' => 'settings#post'
+
+  get '/settings/edit' => 'settings#edit'
+  patch '/settings' => 'settings#update'
 
   get '/daily_logs' => 'daily_progress_logs#index'
 
   post '/incoming_voice' => 'webhooks#incoming_voice'
   post '/incoming_text' => 'webhooks#incoming_text'
 
+
   namespace :api do
     namespace :v1 do
+      get '/leads' => 'leads#index'
+      get '/leads/:id' => 'leads#show'
       post '/leads' => 'leads#create'
     end
   end

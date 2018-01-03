@@ -34,7 +34,7 @@
   width: 85%;
 }
 
-.alert-info {
+/*.alert-info {
   float: left;
   margin-left: 10px;
 }
@@ -42,7 +42,7 @@
 .alert-success {
   float: right;
   margin-right: 10px;
-}
+}*/
 
 .text-history-header {
   margin-bottom: 20px !important;

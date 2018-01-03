@@ -1,0 +1,5 @@
+<%= form_for @setting, url: '/settings', method: :patch do |f| %>
+  <%= f.label :auto_text %>
+  <%= f.text_field :auto_text, class: "form-control form-control-warning" %>
+  <input type="submit" value="Update" class="btn btn-primary">
+<% end %>

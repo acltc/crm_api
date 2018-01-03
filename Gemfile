@@ -31,7 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'lodash-rails'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -47,10 +47,12 @@ gem 'phone', '1.2.3'
 gem 'icalendar', '2.4.1'
 gem 'geocoder', '1.4.4'
 gem 'aws-sdk', '~> 2.0'
+gem 'lodash-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'pry'
 end
 
 group :development do

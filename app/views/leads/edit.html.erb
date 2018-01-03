@@ -32,12 +32,23 @@
               <button id="button-call" class="btn btn-primary">Call</button>
               <button id="button-hangup" class="btn btn-danger">Hangup</button>
             </div>
-            <div id="log"></div>
-            <div class="card-header d-flex align-items-center">
-              <h2 class="h5 display">Send Text Message</h2>
+              <div class="card-header d-flex align-items-center">
+                <h2 class="h5 display">Auto Text</h2>
+              </div>
+            <div class="col-lg-6">
+           
+                  <%= form_tag "/auto_text/#{@lead.id}", method: :post do %>
+                    <input type="submit" value="Send Auto-Text" class="btn btn-info" style="margin-top: 15px;margin-left:5px;">
+                  <% end %>
             </div>
 
+            <div id="log"></div>
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h5 display">Send Custom Text Message</h2>
+            </div>
+    
             <%= form_tag "/text", {class: "form-horizontal text-form"} do %>
+            <%= hidden_field_tag :lead_id, @lead.id %>
             <div class="form-group row">
               <%= label_tag :phone, "Phone", {class: 'col-sm-2'} %>
               <div class="col-sm-10">
@@ -83,7 +94,16 @@
             </div>
             <div class="text-history">
               <% @messages.each do |message| %>
-                <div class="text-bubble alert <%= message.from == "+17734666919" ? 'alert-info' : 'alert-success' %>" role="alert"><p><%= message.body %></p></div>
+                <div class="text-bubble alert <%= message.from == "+17734666919" ? 'alert-info' : 'alert-success' %>" role="alert">
+                  <p><%= message.body %></p>
+                  <% message_sent = DateTime.rfc2822(message.date_sent) %>
+                  <% if  %>
+                    <% message_sent.year != Time.now.year %>
+                    <p><%= " sent on " + message_sent.strftime("(%Y) %B %e, %m:%M%P") %></p>
+                  <% else %>
+                    <p><%= " sent on " + message_sent.strftime("%B %e, %m:%M%P") %></p>
+                  <% end %>
+                </div>
               <% end %>
             </div>
           </div>

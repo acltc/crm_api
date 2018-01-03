@@ -47,6 +47,7 @@
         <div class="main-menu">
           <ul id="side-main-menu" class="side-menu list-unstyled">
             <li class="<%= @all_leads_active %>"><a href="/"> <i class="icon-home"></i><span>All Leads</span></a></li>
+            <li class="<%= @new_lead_active %>"><a href="/leads/new"><i class="icon-flask"></i><span>New Leads</span></a></li>
             <li class="<%= @outbound_mode_active %>"> <a href="/next" data-turbolinks="false"><i class="icon-form"></i><span>Outbound Mode</span></a></li>
             <li class="<%= @daily_progress_active %>"> <a href="/daily_logs"><i class="icon-line-chart"></i><span>Daily Progress</span></a></li>
             <% if admin_signed_in? %>
@@ -123,19 +124,28 @@
 
       <!-- Main Section -->
       <div class="container">
-        <% if notice %>
-        <div class="alert alert-dismissible alert-success">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <h4><%= notice %></h4>
-        </div>
-        <% end %>
-        <% if alert %>
-        <div class="alert alert-dismissible alert-danger">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <h4><%= alert %></h4>
-        </div>
+        <% flash.each do |key, value| %>
+          <% if key == 'notice' %>
+            <div class="alert alert-dismissible alert-success">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <h4><%= value %></h4>
+            </div>
+          <% elsif key == 'alert' %>
+            <div class="alert alert-dismissible alert-danger">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <h4><%= value %></h4>
+            </div>
+          <% else %>
+            <div class="alert alert-<%= key %> alert-dismissible" >
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <h4><%= value %></h4>
+            </div>
+          <% end %>
         <% end %>
       </div>
+
+      
+
       <%= yield %>
       <!-- End of Main Section -->
 
@@ -143,7 +153,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <p>Your company &copy; 2017-2019</p>
+              <p>Actualize CRM &copy; <%= Time.current.year %></p>
             </div>
             <div class="col-sm-6 text-right">
               <p>Design by <a href="https://bootstrapious.com" class="external">Bootstrapious</a></p>

@@ -12,5 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require vue
+//= require lodash 
+//= require moment
+//= require lodash
 //= require_tree .

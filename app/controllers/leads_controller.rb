@@ -23,6 +23,17 @@ class LeadsController < ApplicationController
     end
   end
 
+  def new
+    @new_lead_active = "active"
+    @lead = Lead.new
+  end
+
+  def create
+    @lead = Lead.create(lead_params)
+    flash[:success] = "Lead added!"
+    redirect_to '/'
+  end
+
   def edit
     @lead = Lead.find_by(id: params[:id])
 
@@ -41,6 +52,13 @@ class LeadsController < ApplicationController
 
   def update
     @lead = Lead.find_by(id: params[:id])
+    unless (params[:outreach_notes] == '')
+      outreach = Outreach.new(
+                              lead_id: @lead.id,
+                              notes: params[:outreach_notes]
+      )
+      outreach.save
+    end
     if @lead.update(lead_params)    
       flash[:success] = "Lead saved!"
       redirect_to '/'
@@ -96,8 +114,27 @@ class LeadsController < ApplicationController
       to: params[:phone],
       body: params[:body]
     )
+    flash[:success] = "Text message sent!"
+    redirect_to "/leads/#{params[:lead_id]}/edit"
+  end
 
-    render nothing: true
+  def auto_text
+    text =
+      if current_admin.setting.auto_text
+        current_admin.setting.auto_text
+      else
+        "This is Rena from The Actualize coding bootcamp. Do you have a minute to talk?"
+      end
+
+    @lead = Lead.find(params[:id])
+    @client = Twilio::REST::Client.new
+    @client.messages.create(
+      from: ENV['TWILIO_PHONE_NUMBER'],
+      to: @lead.phone,
+      body: "Hi, #{@lead.first_name.partition(" ").first}! #{text}"
+    )
+    flash[:success] = "Auto text sent!"
+    render :edit
   end
 
   def no_leads

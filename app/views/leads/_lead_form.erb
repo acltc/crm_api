@@ -75,14 +75,10 @@
           <h2 class="h5 display">Post-Call Records</h2>
         </div>
         <div class="update-lead-form">
-          <% if !@call_mode %>
-            <div class="form-group">
-                <div class="i-checks">
-                  <%= f.label :contacted, "Dialed?" %>
-                  <%= f.check_box :contacted %>
-                </div>
-            </div>
-          <% end %>
+          <div class="form-group">
+            <%= label_tag :outreach_notes, "Latest Outreach", class: "form-control-label" %>
+            <%= text_field_tag :outreach_notes, nil, class: "form-control" %>
+          </div>
           <div class="form-group">
             <div class="i-checks">
               <%= f.label :connected, "Connected?" %>
