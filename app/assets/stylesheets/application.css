@@ -32,6 +32,7 @@
 
 .text-bubble {
   width: 85%;
+  margin: auto;
 }
 
 /*.alert-info {

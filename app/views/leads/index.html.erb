@@ -25,17 +25,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="lead in filteredLeads" v-on:click="showEvents(lead)" v-bind:id="'lead-' + lead.id" v-bind:style=" rowColor(lead)">
-                <td>{{ moment(lead.created_at).format('dddd MMM Do YYYY, h:mm a') }}</td>
-                <td>{{ lead.first_name }}</td>
-                <td>{{ lead.last_name }}</td>
-                <td><a v-bind:href="'/leads/' + lead.id + '/edit'" v-on:click.stop="showEvents()">{{ lead.email }}</a></td>
-                <td>{{ lead.phone }}</td>
-                <td>{{ moment(lead.appointment_date).format('dddd MMM Do YYYY, h:mm a') }}</td>
-                <td>{{ lead.notes }}</td>
-              </tr>
+              <template v-for="lead in leads">
+                <tr v-on:click="showEvents(lead.id)" :key="lead.id" v-bind:style=" rowColor(lead)">
+                  <td>{{ moment(lead.created_at).format('dddd MMM Do YYYY, h:mm a') }}</td>
+                  <td>{{ lead.first_name }}</td>
+                  <td>{{ lead.last_name }}</td>
+                  <td><a v-bind:href="'/leads/' + lead.id + '/edit'">{{ lead.email }}</a></td>
+                  <td>{{ lead.phone }}</td>
+                  <td>{{ moment(lead.appointment_date).format('dddd MMM Do YYYY, h:mm a') }}</td>
+                  <td>{{ lead.notes }}</td>
+                </tr>
+                <tr v-bind:id="'events-' + lead.id" style="background-color:lightgrey;" class="collapse">
+                </tr>
+              </template>
             </tbody>
           </table>
+          <button v-on:click="moreLeads()">Load More Leads</button>
         </div>
       </div>
     </div>

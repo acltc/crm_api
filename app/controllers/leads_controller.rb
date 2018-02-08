@@ -47,7 +47,7 @@ class LeadsController < ApplicationController
                   :to   => @lead.phone,
                   :from => ENV['TWILIO_PHONE_NUMBER']
     })
-    @messages = (messages_from_lead + messages_from_call_converter).sort_by {|m| m.date_sent}
+    @messages = (messages_from_lead + messages_from_call_converter).sort_by(&:date_sent).reverse
   end
 
   def update
@@ -128,14 +128,27 @@ class LeadsController < ApplicationController
 
     @lead = Lead.find(params[:id])
     @client = Twilio::REST::Client.new
-    @client.messages.create(
-      from: ENV['TWILIO_PHONE_NUMBER'],
-      to: @lead.phone,
-      body: "Hi, #{@lead.first_name.partition(" ").first}! #{text}"
-    )
-    flash[:success] = "Auto text sent!"
-    render :edit
-  end
+    begin 
+      @client.messages.create(
+        from: ENV['TWILIO_PHONE_NUMBER'],
+        to: @lead.phone,
+        body: "Hi, #{@lead.first_name.partition(" ").first}! #{text}"
+      )
+      flash[:success] = "Auto text sent!"
+      respond_to do |format|
+        format.html { render :edit }
+        format.json { render json: { 
+          message: 'Message sent',
+          status: 200 } }
+      end
+    rescue => error
+      flash[:warning] = error
+      respond_to do |format|
+        format.html { render :edit }
+        format.json { render json: { status: 500, errors: error } }
+      end
+    end
+  end 
 
   def no_leads
   end

@@ -75,6 +75,14 @@
           <h2 class="h5 display">Post-Call Records</h2>
         </div>
         <div class="update-lead-form">
+            Previous Outreaches
+          <div class="form-group">
+            <div class="form-control">
+              <% @lead.outreaches.each do |outreach| %>
+                • <%= outreach.notes %> - <%= outreach.created_at %></br>
+              <% end  %>
+            </div>
+        </div>
           <div class="form-group">
             <%= label_tag :outreach_notes, "Latest Outreach", class: "form-control-label" %>
             <%= text_field_tag :outreach_notes, nil, class: "form-control" %>
