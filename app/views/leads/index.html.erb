@@ -26,7 +26,7 @@
             </thead>
             <tbody>
               <template v-for="lead in leads">
-                <tr v-on:click="showEvents(lead.id)" :key="lead.id" v-bind:style=" rowColor(lead)">
+                <tr v-on:click="showEvents(lead.id)" :key="lead.id" v-bind:style="rowColor(lead)">
                   <td>{{ moment(lead.created_at).format('dddd MMM Do YYYY, h:mm a') }}</td>
                   <td>{{ lead.first_name }}</td>
                   <td>{{ lead.last_name }}</td>

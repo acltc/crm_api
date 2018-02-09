@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           .head()
           .value()
           .updated_at;
-        if (latestEventDate > latestOutreachDate) {
+        if (Date.parse(latestEventDate) > Date.parse(latestOutreachDate)) {
           return 'background-color:#0cc6f4;';
         } else {
           return '';
