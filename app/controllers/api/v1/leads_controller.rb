@@ -49,15 +49,15 @@ class Api::V1::LeadsController < ApplicationController
     # become a lead in the past, we just record their new event.
     
     @lead = Lead.find_or_initialize_by(email: params[:email])
-    @lead.first_name = params[:first_name] if params[:first_name]
-    @lead.last_name = params[:last_name] if params[:last_name]
-    @lead.phone = params[:phone] if params[:phone]
-    @lead.ip = params[:ip] if params[:ip]
-    @lead.city = params[:city] if params[:city]
-    @lead.state = params[:state] if params[:state]
-    @lead.zip = params[:zip] if params[:zip]
-    @lead.created_at = params[:created_at] if params[:created_at]
-    @lead.updated_at = params[:updated_at] if params[:updated_at]
+    @lead.first_name = params[:first_name] if params[:first_name].present?
+    @lead.last_name = params[:last_name] if params[:last_name].present?
+    @lead.phone = params[:phone] if params[:phone].present?
+    @lead.ip = params[:ip] if params[:ip].present?
+    @lead.city = params[:city] if params[:city].present?
+    @lead.state = params[:state] if params[:state].present?
+    @lead.zip = params[:zip] if params[:zip].present?
+    @lead.created_at = params[:created_at] if params[:created_at].present?
+    @lead.updated_at = params[:updated_at] if params[:updated_at].present?
     @lead.save
 
     @lead.events.create(name: params[:name], created_at: params[:created_at], updated_at: params[:updated_at])
