@@ -21,7 +21,7 @@
               <div id="client-name"></div>
             </div>
             <div id="call-controls">
-              <p>We think this lead is from Geocoder.address(@lead.ip)</p>
+              <p>We think this lead is from <%= Geocoder.address(@lead.ip) %></p>
               <input id="phone-number" type="text" value="<%= @lead.phone %>" class="form-control"/>
               <select id="from-number" class="form-control">
                 <option value="">Choose where to call from:</option>

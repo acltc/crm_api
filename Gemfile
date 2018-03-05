@@ -41,11 +41,11 @@ gem 'faker'
 gem 'figaro'
 #Drip Ruby Client
 gem 'drip-ruby', require: 'drip'
-gem 'devise'
+gem 'devise', '4.4.0'
 gem 'twilio-ruby', '4.13.0'
 gem 'phone', '1.2.3'
 gem 'icalendar', '2.4.1'
-gem 'geocoder', '1.4.4'
+gem 'geocoder', '1.4.5'
 gem 'aws-sdk', '~> 2.0'
 gem 'lodash-rails'
 
