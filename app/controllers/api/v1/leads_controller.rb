@@ -76,7 +76,7 @@ class Api::V1::LeadsController < ApplicationController
       end
 
       client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
-      client.subscribe(@lead.email, 34197704)
+      client.subscribe(@lead.email, 13828799)
     end
 
 end
