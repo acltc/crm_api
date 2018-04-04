@@ -20,7 +20,7 @@
                 <th v-on:click="sortAscDec('last_name')">Last Name</th>
                 <th v-on:click="sortAscDec('email')">Email</th>
                 <th v-on:click="sortAscDec('phone')">Phone</th>
-                <th v-on:click="sortAscDec('appointment_date')">Appointment Date</th>
+                <th v-on:click="sortAscDec('source')">Source</th>
                 <th v-on:click="sortAscDec('notes')">Notes</th>
               </tr>
             </thead>
@@ -32,7 +32,7 @@
                   <td>{{ lead.last_name }}</td>
                   <td><a v-on:click.stop v-bind:href="'/leads/' + lead.id + '/edit'">{{ lead.email }}</a></td>
                   <td>{{ lead.phone }}</td>
-                  <td>{{ moment(lead.appointment_date).format('dddd MMM Do YYYY, h:mm a') }}</td>
+                  <td>{{ lead.source }}</td>
                   <td>{{ lead.notes }}</td>
                 </tr>
                 <tr v-bind:id="'events-' + lead.id" style="background-color:lightgrey;" class="collapse">

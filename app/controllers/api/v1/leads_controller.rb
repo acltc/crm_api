@@ -58,6 +58,7 @@ class Api::V1::LeadsController < ApplicationController
     @lead.zip = params[:zip] if params[:zip].present?
     @lead.created_at = params[:created_at] if params[:created_at].present?
     @lead.updated_at = params[:updated_at] if params[:updated_at].present?
+    @lead.source = params[:source] if params[:source].present?
     @lead.save
 
     @lead.events.create(name: params[:name], created_at: params[:created_at], updated_at: params[:updated_at])

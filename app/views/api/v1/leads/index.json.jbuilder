@@ -1,3 +1,3 @@
 json.array!  @leads.each do |lead|
-  json.(lead, :id, :first_name, :last_name, :email, :phone, :appointment_date, :notes, :recent_event_date, :outreaches, :created_at)
+  json.(lead, :id, :first_name, :last_name, :email, :phone, :appointment_date, :notes, :recent_event_date, :outreaches, :created_at, :source)
 end
