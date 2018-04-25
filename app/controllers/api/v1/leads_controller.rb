@@ -48,9 +48,9 @@ class Api::V1::LeadsController < ApplicationController
     # event they triggered. If they've triggered an event previously and already
     # become a lead in the past, we just record their new event.
     
-    check_for_spam_id_address = Unirest.get("https://api.apility.net/badip/#{params[:ip]}").code
+    check_for_spam_ip_address = Unirest.get("https://api.apility.net/badip/#{params[:ip]}").code
 
-    if code == 200 # it's spam!
+    if check_for_spam_ip_address == 200 # it's spam!
       head :ok
     else 
       @lead = Lead.find_or_initialize_by(email: params[:email])
