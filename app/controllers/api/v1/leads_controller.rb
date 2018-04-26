@@ -52,9 +52,6 @@ class Api::V1::LeadsController < ApplicationController
     
     check_for_spam_ip_address = Unirest.get("https://api.apility.net/badip/#{params[:ip]}?token=#{ENV['SPAM_CHECKER_API']}").code
 
-    if check_for_spam_ip_address == 200 # it's spam!
-      head :ok
-    else 
       @lead = Lead.find_or_initialize_by(email: params[:email])
       @lead.first_name = params[:first_name] if params[:first_name].present?
       @lead.last_name = params[:last_name] if params[:last_name].present?
@@ -70,10 +67,12 @@ class Api::V1::LeadsController < ApplicationController
 
       @lead.events.create(name: params[:name], created_at: params[:created_at], updated_at: params[:updated_at])
         
-
+    if check_for_spam_ip_address == 200 # it's spam!
+      @lead.update(spam: true)
+    else 
       create_drip_lead
-      render "show.json.jbuilder"
     end
+    render "show.json.jbuilder"
   end
 
   private
