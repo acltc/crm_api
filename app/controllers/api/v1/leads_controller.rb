@@ -71,6 +71,7 @@ class Api::V1::LeadsController < ApplicationController
       @lead.update(spam: true)
     else 
       create_drip_lead
+      create_closeio_lead
     end
     render "show.json.jbuilder"
   end
@@ -85,6 +86,36 @@ class Api::V1::LeadsController < ApplicationController
 
       client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
       client.subscribe(@lead.email, 13828799)
+    end
+
+    def create_closeio_lead
+      Unirest.post("https://app.close.io/api/v1/lead/", auth: {:user => ENV["CLOSEIO_API"], :password=>""}, headers: { "Content-Type" => "application/json" }, parameters: 
+        {
+            name: (@lead.first_name || "there"),
+            # status_id: "stat_1ZdiZqcSIkoGVnNOyxiEY58eTGQmFNG3LPlEVQ4V7Nk",
+            contacts: [
+                {
+                    name: "Gob",
+                    emails: [
+                        {
+                            type: "main",
+                            email: @lead.email
+                        }
+                    ],
+                    phones: [
+                        {
+                            type: "cell",
+                            phone: @lead.phone
+                        }
+                    ]
+                }
+            ],
+            # "custom.lcf_ORxgoOQ5YH1p7lDQzFJ88b4z0j7PLLTRaG66m8bmcKv": "Website contact form",
+            # "custom.lcf_FSYEbxYJFsnY9tN1OTAPIF33j7Sw5Lb7Eawll7JzoNh": "Segway",
+            # "custom.lcf_bA7SU4vqaefQLuK5UjZMVpbfHK4SVujTJ9unKCIlTvI": "Real Estate",
+            
+        }
+      )
     end
 
 end
