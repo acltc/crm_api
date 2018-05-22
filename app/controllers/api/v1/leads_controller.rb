@@ -89,7 +89,7 @@ class Api::V1::LeadsController < ApplicationController
     end
 
     def create_closeio_lead
-      Unirest.post("https://app.close.io/api/v1/lead/", auth: {:user => ENV["CLOSEIO_API"], :password=>""}, headers: { "Content-Type" => "application/json" }, parameters: 
+      response = Unirest.post("https://app.close.io/api/v1/lead/", auth: {:user => ENV["CLOSEIO_API"], :password=>""}, headers: { "Content-Type" => "application/json" }, parameters: 
         {
             name: (@lead.first_name || "there"),
             # status_id: "stat_1ZdiZqcSIkoGVnNOyxiEY58eTGQmFNG3LPlEVQ4V7Nk",
@@ -115,7 +115,10 @@ class Api::V1::LeadsController < ApplicationController
             # "custom.lcf_bA7SU4vqaefQLuK5UjZMVpbfHK4SVujTJ9unKCIlTvI": "Real Estate",
             
         }
-      )
+      ).to_json
+
+      Logger.info("AAAAAAAAAAAAA")
+      Logger.info(response)
     end
 
 end
