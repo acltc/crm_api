@@ -90,8 +90,9 @@ class Api::V1::LeadsController < ApplicationController
 
     def create_closeio_lead
       HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).post("https://app.close.io/api/v1/lead/", json: {
-            name: (@lead.first_name || "there"),
-            
+            name: @lead.email,
+            "lcf_8lVNrVx3D39ppNWVtXAiBPsxVMPNe2oRC1BaRX3EQAz" => @lead.events.last.name,
+            "lcf_9iTJONvjuBDs24Ruq1H5AcJukPmq0SyelFvaDtAlQt0" => Time.now,
             contacts: [
                 {
                     name: (@lead.first_name || "there"),
