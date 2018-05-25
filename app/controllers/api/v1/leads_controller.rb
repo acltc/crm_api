@@ -89,30 +89,39 @@ class Api::V1::LeadsController < ApplicationController
     end
 
     def create_closeio_lead
-      HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).post("https://app.close.io/api/v1/lead/", json: {
-            name: @lead.email,
-            "custom.lcf_8lVNrVx3D39ppNWVtXAiBPsxVMPNe2oRC1BaRX3EQAz" => @lead.events.last.name,
-            "custom.lcf_9iTJONvjuBDs24Ruq1H5AcJukPmq0SyelFvaDtAlQt0" => Time.now,
-            contacts: [
-                {
-                    name: (@lead.first_name || "there"),
-                    emails: [
-                        {
-                            type: "main",
-                            email: @lead.email
-                        }
-                    ],
-                    phones: [
-                        {
-                            type: "cell",
-                            phone: @lead.phone
-                        }
-                    ]
-                }
-            ]
-            
-        })
+      lead_details = HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).get("https://app.close.io/api/v1/lead/?query=#{@lead.email}").parse
 
+      if lead_details["total_results"] > 0 # the lead already exists in close.io
+        lead_id = lead_details["data"][0]["id"] # find the close.io id for that lead
+        if params[:name] == "Finished Application"
+          # update their status to "Applied"
+          HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).put("https://app.close.io/api/v1/lead/#{lead_id}/", json: { status: "Lead: Applied" })
+        end
+      else
+        HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).post("https://app.close.io/api/v1/lead/", json: {
+              name: @lead.email,
+              "custom.lcf_8lVNrVx3D39ppNWVtXAiBPsxVMPNe2oRC1BaRX3EQAz" => @lead.events.last.name,
+              "custom.lcf_9iTJONvjuBDs24Ruq1H5AcJukPmq0SyelFvaDtAlQt0" => Time.now,
+              contacts: [
+                  {
+                      name: (@lead.first_name || "there"),
+                      emails: [
+                          {
+                              type: "main",
+                              email: @lead.email
+                          }
+                      ],
+                      phones: [
+                          {
+                              type: "cell",
+                              phone: @lead.phone
+                          }
+                      ]
+                  }
+              ]
+              
+          })
+      end
     end
 
 end
