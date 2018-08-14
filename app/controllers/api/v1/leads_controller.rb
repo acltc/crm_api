@@ -98,7 +98,7 @@ class Api::V1::LeadsController < ApplicationController
           HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).put("https://app.close.io/api/v1/lead/#{lead_id}/", json: { status: "Lead: Applied" })
         elsif params[:name] == "Started Application"
            HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).post("https://app.close.io/api/v1/lead/", json: {
-              "custom.lcf_Sfcy3nEbjCsOuIx6RBWrdSyuOkwZRzUO4eAqjuoWdVR" => "Started Application"}
+              "custom.lcf_Sfcy3nEbjCsOuIx6RBWrdSyuOkwZRzUO4eAqjuoWdVR" => "Started Application"})
         end
       else
         HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).post("https://app.close.io/api/v1/lead/", json: {
