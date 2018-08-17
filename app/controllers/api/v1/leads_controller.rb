@@ -105,7 +105,7 @@ class Api::V1::LeadsController < ApplicationController
               name: @lead.email,
               "custom.lcf_8lVNrVx3D39ppNWVtXAiBPsxVMPNe2oRC1BaRX3EQAz" => @lead.events.last.name,
               "custom.lcf_9iTJONvjuBDs24Ruq1H5AcJukPmq0SyelFvaDtAlQt0" => Time.now,
-              "custom.lcf_d4q609qhOUdXMIDUCHqKCKQASovF9gF2iOzlPSs0I8I" => lead.source,
+              "custom.lcf_d4q609qhOUdXMIDUCHqKCKQASovF9gF2iOzlPSs0I8I" => @lead.source,
               contacts: [
                   {
                       name: (@lead.first_name || "there"),
