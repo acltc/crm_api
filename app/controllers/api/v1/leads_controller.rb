@@ -95,7 +95,8 @@ class Api::V1::LeadsController < ApplicationController
         lead_id = lead_details["data"][0]["id"] # find the close.io id for that lead
         if params[:name] == "Finished Application"
           # update their status to "Applied"
-          HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).put("https://app.close.io/api/v1/lead/#{lead_id}/", json: { status: "Lead: Applied" })
+          HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).put("https://app.close.io/api/v1/lead/#{lead_id}/", json: { status: "Lead: Applied",
+              "custom.lcf_hHk8rnINvBidSayym4UjAxGeCeppsRFF4Hp30i3np4G" => "Yes" })
         else
            HTTP.basic_auth(:user => ENV["CLOSEIO_API"], :pass => "").headers({"Content-Type" => "application/json", 'Accept' => 'application/json'}).put("https://app.close.io/api/v1/lead/#{lead_id}/", json: {
               "custom.lcf_Sfcy3nEbjCsOuIx6RBWrdSyuOkwZRzUO4eAqjuoWdVR" => params[:name]})
@@ -106,6 +107,7 @@ class Api::V1::LeadsController < ApplicationController
               "custom.lcf_8lVNrVx3D39ppNWVtXAiBPsxVMPNe2oRC1BaRX3EQAz" => @lead.events.last.name,
               "custom.lcf_9iTJONvjuBDs24Ruq1H5AcJukPmq0SyelFvaDtAlQt0" => Time.now,
               "custom.lcf_d4q609qhOUdXMIDUCHqKCKQASovF9gF2iOzlPSs0I8I" => @lead.source,
+              "custom.lcf_hHk8rnINvBidSayym4UjAxGeCeppsRFF4Hp30i3np4G" => "Yes"
               contacts: [
                   {
                       name: (@lead.first_name || "there"),
