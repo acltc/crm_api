@@ -88,8 +88,10 @@ class Api::V1::LeadsController < ApplicationController
 
       if @lead.events.last.name == "TLASE" # Think Like a Software Engineer Newsletter
         client.subscribe(@lead.email, 843692586)
-      else
-        client.subscribe(@lead.email, 13828799)
+      elsif @lead.events.last.name == "blog" # The Actualize Blog
+        client.subscribe(@lead.email, 10866344)
+      # else
+      #   client.subscribe(@lead.email, 13828799) Old Drip Campaign Called "Actualize"
       end
     end
 
