@@ -86,9 +86,9 @@ class Api::V1::LeadsController < ApplicationController
 
       client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
 
-      if @lead.events.last.name == "TLASE" # Think Like a Software Engineer Newsletter
+      if params[:name] == "TLASE" # Think Like a Software Engineer Newsletter
         client.subscribe(@lead.email, 843692586)
-      elsif @lead.events.last.name == "blog" # The Actualize Blog
+      elsif params[:name] == "blog" # The Actualize Blog
         client.subscribe(@lead.email, 10866344)
       # else
       #   client.subscribe(@lead.email, 13828799) Old Drip Campaign Called "Actualize"
