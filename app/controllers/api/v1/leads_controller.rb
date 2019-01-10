@@ -90,6 +90,8 @@ class Api::V1::LeadsController < ApplicationController
         client.subscribe(@lead.email, 843692586)
       elsif params[:name] == "blog" # The Actualize Blog
         client.subscribe(@lead.email, 10866344)
+      elsif params[:name] == "60-day" # The Sixty Day Challenge
+        client.subscribe(@lead.email, 188969751)
       # else
       #   client.subscribe(@lead.email, 13828799) Old Drip Campaign Called "Actualize"
       end
