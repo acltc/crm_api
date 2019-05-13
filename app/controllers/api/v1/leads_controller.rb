@@ -84,14 +84,19 @@ class Api::V1::LeadsController < ApplicationController
         c.account_id = ENV["DRIP_ACCOUNT_ID"]
       end
 
-      client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
+
+      
 
       if params[:name] == "TLASE" # Think Like a Software Engineer Newsletter
+        client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
+
         client.subscribe(@lead.email, 843692586)
       elsif params[:name] == "blog" # The Actualize Blog
+        client.create_or_update_subscriber(@lead.email, {custom_fields: { first_name: @lead.first_name, cell_phone: @lead.phone, mousetrap: @lead.events.last.name } })
+        
         client.subscribe(@lead.email, 10866344)
-      elsif params[:name] == "60-day" # The Sixty Day Challenge
-        client.subscribe(@lead.email, 188969751)
+      # elsif params[:name] == "60-day" # The Sixty Day Challenge
+      #   client.subscribe(@lead.email, 188969751)
       # else
       #   client.subscribe(@lead.email, 13828799) Old Drip Campaign Called "Actualize"
       end
